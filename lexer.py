@@ -76,21 +76,11 @@ class Lexer:
             else:
                 tokens.append(Token("ERROR", char_actual))
                 self.puntero += 1
+        tokens.append(Token("FIN", None))
         return tokens
     
-while True:
-    texto = "x = 23.2;y = 12||z = x**2.2+931**42|p = z * y||p, z"
-    if texto == "xyz":
-        break
-    lexer = Lexer(texto)
-    lista_tokens = lexer.tokenizar()
-    print(texto)
-    xd = ""
-    for t in lista_tokens:
-        print(f"Tipo: {t.tipo} , Valor: {t.valor}")
-        xd += t.valor
-    print(xd)
-    input()
+
+
 
 
 

@@ -8,19 +8,13 @@ class Lexer:
         self.texto = texto
         self.puntero = 0
         self.limite = len(texto)
-        self.PALABRAS_RESERVADAS = {
-            "int": "TIPO_INIT",
-            "float": "TIPO_FLOAT",
-            "bool": "TIPO_BOOL",
-            "return": "RESERVADA_RETURN"
-        }
         self.OPERADORES_SIMPLES = {
             "+": "SUMA",
             "-": "RESTA",
             "*": "MULTIPLICACION",
             "/": "DIVISION",
             "=": "ASIGNACION",
-            ":": "DOP_PUNTOS",
+            ",": "COMA",
             ";": "PUNTO_Y_COMA",
             "|": "SEPARACION",
             "(": "PAREN_IZQ",
@@ -37,23 +31,19 @@ class Lexer:
         while self.puntero < self.limite and (self.texto[self.puntero].isalnum() or self.texto[self.puntero] == "_"):
             buffer += self.texto[self.puntero]
             self.puntero += 1
-        if buffer in self.PALABRAS_RESERVADAS:
-            tipo_token = self.PALABRAS_RESERVADAS.get(buffer)
-        else:
-            tipo_token = "IDENTIFICADOR"
-        return Token(tipo_token, buffer)    
+        return Token("IDENTIFICADOR", buffer)    
 
     def leer_simbolo(self):
         if self.puntero < self.limite:
-            simbolo_doble = self.texto[self.puntero] + self.texto[self.puntero + 1]
-            if simbolo_doble in self.OPERADORES_DOBLES:
+            if self.puntero < self.limite - 1 and self.texto[self.puntero] + self.texto[self.puntero + 1] in self.OPERADORES_DOBLES:
+                valor_token = self.texto[self.puntero] + self.texto[self.puntero + 1]
+                tipo_token = self.OPERADORES_DOBLES[valor_token]
                 self.puntero += 2
-                return Token(self.OPERADORES_DOBLES[simbolo_doble], simbolo_doble)
-            
-        simbolo_actual = self.texto[self.puntero]
-        if simbolo_actual in self.OPERADORES_SIMPLES:
-            self.puntero += 1
-            return Token(self.OPERADORES_SIMPLES[simbolo_actual], simbolo_actual)
+            else:
+                valor_token = self.texto[self.puntero]
+                tipo_token = self.OPERADORES_SIMPLES[valor_token]
+                self.puntero += 1     
+            return Token(tipo_token, valor_token)   
             
     def leer_numero(self):
         contador_punto_decimal = 0
@@ -63,17 +53,14 @@ class Lexer:
                 contador_punto_decimal += 1
             buffer += self.texto[self.puntero]
             self.puntero += 1
-        if contador_punto_decimal <= 1:
-            if buffer == ".":
-                return Token("ERROR", buffer)
-            elif "." in buffer[0]:
-                buffer = "0" + buffer
-            elif "." in buffer[-1]:
-                buffer += "0"
-            return Token("NUMERO", buffer)
-        else:
+        if contador_punto_decimal > 1 or buffer == ".":
             return Token("ERROR", buffer)
-    
+        elif buffer[0] == ".":
+            buffer = "0" + buffer
+        elif buffer[-1] == ".":
+            buffer += "0"
+        return Token("NUMERO", buffer)
+      
     def tokenizar(self):
         tokens  = [] 
         while self.puntero < self.limite:
@@ -92,14 +79,18 @@ class Lexer:
         return tokens
     
 while True:
-    texto = input(">>> : ")
+    texto = "x = 23.2;y = 12||z = x**2.2+931**42|p = z * y||p, z"
     if texto == "xyz":
         break
     lexer = Lexer(texto)
     lista_tokens = lexer.tokenizar()
     print(texto)
+    xd = ""
     for t in lista_tokens:
-        print(f"Tipo: {t.tipo}, Valor: {t.valor}")
+        print(f"Tipo: {t.tipo} , Valor: {t.valor}")
+        xd += t.valor
+    print(xd)
+    input()
 
 
 

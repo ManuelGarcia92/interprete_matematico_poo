@@ -12,18 +12,11 @@ class Lexer:
             "+": "SUMA",
             "-": "RESTA",
             "*": "MULTIPLICACION",
-            "/": "DIVISION",
-            "=": "ASIGNACION",
-            ",": "COMA",
-            ";": "PUNTO_Y_COMA",
-            "|": "SEPARACION",
-            "(": "PAREN_IZQ",
-            ")": "PAREN_DER"
+            "/": "DIVISION"
         }
         self.OPERADORES_DOBLES = {
             "**": "POTENCIA",
-            "//": "DIV_ENTERA",
-            "||": "DELIMITACION"
+            "//": "DIV_ENTERA"
         }
 
     def leer_palabra(self):

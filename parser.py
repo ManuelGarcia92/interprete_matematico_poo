@@ -1,25 +1,4 @@
-class NodoBinario:
-    def __init__(self, izquierda, operador, derecha):
-        self.izquierda = izquierda
-        self.operador = operador
-        self.derecha = derecha
-        self.OPERACIONES = {
-        "*" : lambda x, y: x * y,
-        "/" : lambda x, y: x / y,
-        "//": lambda x, y: x // y,
-        "+" : lambda x, y: x + y,
-        "-" : lambda x, y: x - y
-        }
-
-    def evaluar(self):
-        return self.OPERACIONES[self.operador]((self.izquierda.evaluar()), (self.derecha.evaluar()))
-
-class NodoNumero:
-    def __init__(self, valor):
-        self.valor = valor
-
-    def evaluar(self):
-        return float(self.valor)
+from nodos import NodoBinario,NodoSuma, NodoResta, NodoMulti, NodoDivi, NodoDiviEntera, NodoPotencia, NodoNumero
 
 class Parser:
     def __init__(self, tokens):
@@ -39,7 +18,7 @@ class Parser:
     def match(self, tipo):
         token = self.peek()
         return token is not None and token.tipo == tipo
-
+    
     def expr(self):
         nodo = self.term()
         while self.match("SUMA") or self.match("RESTA"):
@@ -49,13 +28,21 @@ class Parser:
         return nodo
     
     def term(self):
-        nodo = self.factor()
+        nodo = self.potencia()
         while self.match("MULTIPLICACION") or self.match("DIVISION") or self.match("DIVI_ENTERA"):
             operador = self.advance()
-            derecha = self.factor()
+            derecha = self.potencia()
             nodo = NodoBinario(nodo, operador.valor, derecha)
         return nodo   
     
+    def potencia(self):
+        base = self.factor()
+        if self.match("POTENCIA"):
+            self.advance()
+            exponente = self.potencia()
+            return NodoPotencia(base, exponente)
+        return base 
+
     def factor(self):
         if self.match("NUMERO"):
             token = self.advance()

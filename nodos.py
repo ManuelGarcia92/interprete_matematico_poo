@@ -3,9 +3,12 @@ class Nodo:
         self.izquierda = izquierda
         self.derecha = derecha
 
-class NodoBinario(Nodo):
-    def __init__(self, operador):
+class NodoBinario:
+    def __init__(self, izquierda, operador, derecha):
+
+        self.izquierda = izquierda
         self.operador = operador
+        self.derecha = derecha
         self.OPERACIONES = {
         "//": lambda x, y: x // y,
         "*" : lambda x, y: x * y,
@@ -49,3 +52,6 @@ class NodoNumero:
         if "." in self.valor:
             return float(self.valor)
         return int(self.valor)
+
+
+    

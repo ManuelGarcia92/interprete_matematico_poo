@@ -12,7 +12,9 @@ class Lexer:
             "+": "SUMA",
             "-": "RESTA",
             "*": "MULTIPLICACION",
-            "/": "DIVISION"
+            "/": "DIVISION",
+            "(": "PAREN_IZQ",
+            ")": "PAREN_DER"
         }
         self.OPERADORES_DOBLES = {
             "**": "POTENCIA",

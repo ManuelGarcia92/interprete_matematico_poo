@@ -1,5 +1,4 @@
-from nodos import NodoBinario,NodoSuma, NodoResta, NodoMulti, NodoDivi, NodoDiviEntera, NodoPotencia, NodoNumero
-
+from nodos import NodoBinario, NodoPotencia, NodoNumero
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -44,7 +43,14 @@ class Parser:
         return base 
 
     def factor(self):
-        if self.match("NUMERO"):
+        if self.match("PAREN_IZQ"):
+            self.advance()
+            paren_tree = self.expr()
+            if self.peek().tipo != "PAREN_DER":
+                raise Exception("No cerraste un parentesis")
+            self.advance()
+            return paren_tree
+        elif self.match("NUMERO"):
             token = self.advance()
             return NodoNumero(token.valor)
         else:

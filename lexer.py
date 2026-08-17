@@ -11,8 +11,9 @@ class Lexer:
         self.OPERADORES_SIMPLES = {
             "+": "SUMA",
             "-": "RESTA",
-            "*": "MULTIPLICACION",
-            "/": "DIVISION",
+            "*": "MULTI",
+            "/": "DIV",
+            "$": "RAIZ_ENESIMA",
             "(": "PAREN_IZQ",
             ")": "PAREN_DER"
         }
@@ -20,7 +21,13 @@ class Lexer:
             "**": "POTENCIA",
             "//": "DIV_ENTERA"
         }
-
+        
+    def advance(self, pasos=1):
+        self.puntero += pasos
+        
+    def peek(self, pasos=0):
+        return self.tokens[self.puntero + pasos] 
+   
     def leer_palabra(self):
         buffer = ""
         while self.puntero < self.limite and (self.texto[self.puntero].isalnum() or self.texto[self.puntero] == "_"):

@@ -1,49 +1,42 @@
-class Nodo:
+class NodoBinario:
     def __init__(self, izquierda, derecha):
         self.izquierda = izquierda
         self.derecha = derecha
-
-class NodoBinario:
-    def __init__(self, izquierda, operador, derecha):
-
-        self.izquierda = izquierda
-        self.operador = operador
-        self.derecha = derecha
-        self.OPERACIONES = {
-        "//": lambda x, y: x // y,
-        "*" : lambda x, y: x * y,
-        "/" : lambda x, y: x / y,
-        "+" : lambda x, y: x + y,
-        "-" : lambda x, y: x - y,
-        }
-
-    def evaluar(self):
-        return self.OPERACIONES[self.operador](self.izquierda.evaluar(), self.derecha.evaluar())
     
-class NodoSuma(Nodo):
+class NodoSuma(NodoBinario):
     def evaluar(self):
         return self.izquierda.evaluar() + self.derecha.evaluar()
 
-class NodoResta(Nodo):
+class NodoResta(NodoBinario):
     def evaluar(self):
         return self.izquierda.evaluar() - self.derecha.evaluar()
     
-class NodoMulti(Nodo):
+class NodoMulti(NodoBinario):
     def evaluar(self):
         return self.izquierda.evaluar() * self.derecha.evaluar()
     
-class NodoDivi(Nodo):
+class NodoDiv(NodoBinario):
     def evaluar(self):
+        if self.derecha.evaluar() == 0:
+            raise Exception("No se puede dividir por 0.")
         return self.izquierda.evaluar() / self.derecha.evaluar()
     
-class NodoDiviEntera(Nodo):
+class NodoDivEntera(NodoBinario):
     def evaluar(self):
+        if self.derecha.evaluar() == 0:
+            raise Exception("No se puede dividir por 0.")
         return self.izquierda.evaluar() // self.derecha.evaluar()
 
-class NodoPotencia(Nodo):
+class NodoPotencia(NodoBinario):
     def evaluar(self):
         return self.izquierda.evaluar() ** self.derecha.evaluar()
-
+    
+class NodoRaizEnesima(NodoBinario):
+    def evaluar(self):
+        if self.izquierda.evaluar() < 0 and self.derecha.evaluar() % 2 != 0:
+            return -(-self.izquierda.evaluar()) ** (1 / self.derecha.evaluar())
+        return self.izquierda.evaluar() ** (1 / self.derecha.evaluar())
+    
 class NodoNumero:
     def __init__(self, valor):
         self.valor = valor
@@ -53,5 +46,11 @@ class NodoNumero:
             return float(self.valor)
         return int(self.valor)
 
-
+class NodoPositivo(NodoNumero):
+    def evaluar(self):
+        return self.valor.evaluar()
     
+class NodoNegativo(NodoNumero):
+    def evaluar(self):
+        return -self.valor.evaluar()
+

@@ -11,15 +11,15 @@ while True:
     texto = input(">>> : ")
     if texto == "xyz":
         break
-    lexer = Lexer(texto)
-    tokens = lexer.tokenizar()
-    parser = Parser(tokens)
     try:
-        arbol = parser.expr()
+        lexer = Lexer(texto)
+        tokens = lexer.tokenizar()
+        parser = Parser(tokens)
+        arbol = parser.parsear()
         resultado = arbol.evaluar()
         print(resultado)
     except Exception as error:
         print(error)
-    input()
+    input("Presione ENTER para continuar...")
 
 

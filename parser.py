@@ -1,12 +1,14 @@
 from nodos import *
+
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
+        self.errores = ""
         self.puntero = 0
 
-    def advance(self, pasos=0):
-        token = self.tokens[self.puntero + pasos]
-        self.puntero += 1
+    def advance(self, pasos=1):
+        token = self.tokens[self.puntero]
+        self.puntero += pasos
         return token
     
     def peek(self, pasos=0):
@@ -18,11 +20,15 @@ class Parser:
     
     def parsear(self):
         if self.match("FIN"):
-            raise Exception("Expresión vacia")
+            self.errores += "Expresión vacia\n"
+
         tree = self.expr()
 
         if self.peek().tipo != "FIN":
-            raise Exception(f"ERROR:Quedan tokens sin procesar:\nToken:{self.peek().valor}\nColumna:{self.peek().columna}")
+            self.errores += f"ERROR: Quedan tokens sin procesar: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
+
+        if self.errores:
+            raise Exception(self.errores)
         
         return tree
 
@@ -78,8 +84,10 @@ class Parser:
         if self.match("PAREN_IZQ"):
             self.advance()
             paren_tree = self.expr()
+
             if self.peek().tipo != "PAREN_DER":
-                raise Exception(f"ERROR:No cerraste un parentesis:\nToken:{self.peek().valor}\nColumna:{self.peek().columna}")
+                self.errores += f"ERROR: No cerraste un parentesis: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
+
             self.advance()
             return paren_tree
         
@@ -96,7 +104,7 @@ class Parser:
             return NodoNumero(token.valor)
         
         else:
-            raise Exception(f"ERROR:Esperaba un número:\nToken:{self.peek().valor}\nColumna:{self.peek().columna}")
+            self.errores += f"ERROR: Esperaba un número: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
             
     
     

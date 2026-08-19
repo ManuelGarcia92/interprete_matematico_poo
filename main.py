@@ -1,3 +1,4 @@
+from tabla_de_simbolos import TablaDeSimbolos
 from lexer import Lexer 
 from parser import Parser
 

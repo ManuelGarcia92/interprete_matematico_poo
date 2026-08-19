@@ -42,9 +42,7 @@ class NodoNumero:
         self.valor = valor
 
     def evaluar(self):
-        if "." in self.valor:
-            return float(self.valor)
-        return int(self.valor)
+        return self.valor
 
 class NodoPositivo(NodoNumero):
     def evaluar(self):

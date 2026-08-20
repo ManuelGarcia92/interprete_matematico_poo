@@ -17,13 +17,13 @@ class NodoMulti(NodoBinario):
     
 class NodoDiv(NodoBinario):
     def evaluar(self, memoria):
-        if self.derecha.evaluar() == 0:
+        if self.derecha.evaluar(memoria) == 0:
             raise Exception("ERROR: No se puede dividir por 0")
         return self.izquierda.evaluar(memoria) / self.derecha.evaluar(memoria)
     
 class NodoDivEntera(NodoBinario):
     def evaluar(self, memoria):
-        if self.derecha.evaluar() == 0:
+        if self.derecha.evaluar(memoria) == 0:
             raise Exception("ERROR: No se puede dividir por 0")
         return self.izquierda.evaluar(memoria) // self.derecha.evaluar(memoria)
 

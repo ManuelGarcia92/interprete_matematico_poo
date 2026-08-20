@@ -1,5 +1,4 @@
 import nodos
-
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -13,9 +12,8 @@ class Parser:
         return token
     
     def peek(self, pasos=0):
-        pos = self.puntero + pasos
-        if pos < self.limite:
-            return self.tokens[pos]
+        if self.puntero + pasos < self.limite:
+            return self.tokens[self.puntero + pasos]
         return None
     
     def match(self, tipo, pasos=0):
@@ -23,20 +21,20 @@ class Parser:
         return token is not None and token.tipo == tipo
     
     def parsear(self):
-        tree = []
+        trees = []
         if self.match("FIN"):
             raise Exception("Expresión vacia")
         
         while not self.match("FIN"):
             if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
-                ident = self.advance()
+                token = self.advance()
                 self.advance()
-                asign_tree = self.expr()
-                nodo = nodos.NodoAsignacion(ident.valor, asign_tree)
-                tree.append(nodo)
+                nodo = self.expr()
+                asign_tree = nodos.NodoAsignacion(token.valor, nodo)
+                trees.append(asign_tree)
 
             else:
-                tree.append(self.expr())
+                trees.append(self.expr())
 
             if self.match("PUNTO_Y_COMA"):
                 self.advance()
@@ -50,7 +48,7 @@ class Parser:
         if self.errores:
             raise Exception(self.errores)
         
-        return tree
+        return trees
 
     def expr(self):
         nodo = self.term()

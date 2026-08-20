@@ -23,34 +23,34 @@ class Parser:
         return token is not None and token.tipo == tipo
     
     def parsear(self):
-        arboles = []
+        tree = []
         if self.match("FIN"):
             raise Exception("Expresión vacia")
         
         while not self.match("FIN"):
             if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
-                nombre = self.advance()
+                ident = self.advance()
                 self.advance()
-                valor = self.expr()
-                nodo = nodos.NodoAsignacion(nombre.valor, valor)
-                arboles.append(nodo)
+                asign_tree = self.expr()
+                nodo = nodos.NodoAsignacion(ident.valor, asign_tree)
+                tree.append(nodo)
 
             else:
-                arboles.append(self.expr())
+                tree.append(self.expr())
 
             if self.match("PUNTO_Y_COMA"):
                 self.advance()
 
             else:
                 break
-            
+
         if self.peek().tipo != "FIN":
             self.errores += f"ERROR: Quedan tokens sin procesar: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
 
         if self.errores:
             raise Exception(self.errores)
         
-        return arboles
+        return tree
 
     def expr(self):
         nodo = self.term()

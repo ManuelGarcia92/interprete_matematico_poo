@@ -16,7 +16,9 @@ class Lexer:
             "/": "DIV",
             "$": "RAIZ_ENESIMA",
             "(": "PAREN_IZQ",
-            ")": "PAREN_DER"
+            ")": "PAREN_DER",
+            "=": "ASIGNACION",
+            ";": "PUNTO_Y_COMA"
         }
         self.OPERADORES_DOBLES = {
             "**": "POTENCIA",

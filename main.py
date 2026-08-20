@@ -1,6 +1,7 @@
 from tabla_de_simbolos import TablaDeSimbolos
 from lexer import Lexer 
 from parser import Parser
+from interprete import Interprete
 
 def limpiar_terminal() -> None:
     import os
@@ -13,11 +14,13 @@ while True:
     if texto == "xyz":
         break
     try:
+        memoria = TablaDeSimbolos()
         lexer = Lexer(texto)
         tokens = lexer.tokenizar()
         parser = Parser(tokens)
         arbol = parser.parsear()
-        resultado = arbol.evaluar()
+        interprete = Interprete(arbol)
+        resultado = interprete.evaluar(memoria)
         print(resultado)
     except Exception as error:
         print(error)

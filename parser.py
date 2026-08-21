@@ -119,14 +119,13 @@ class Parser:
             if self.match("SUMA", 1) or self.match("RESTA", 1):
                 self.levantar_error("Operador repetido", 1)
 
-            else:
-                operador = self.advance()
+            operador = self.advance()
 
-                if operador.tipo == "SUMA":
-                    return nodos.NodoPositivo(self.raiz_y_potencia())
-                
-                elif operador.tipo == "RESTA":
-                    return nodos.NodoNegativo(self.raiz_y_potencia())
+            if operador.tipo == "SUMA":
+                return nodos.NodoPositivo(self.raiz_y_potencia())
+            
+            elif operador.tipo == "RESTA":
+                return nodos.NodoNegativo(self.raiz_y_potencia())
         
         elif self.match("NUMERO"):
             token = self.advance()

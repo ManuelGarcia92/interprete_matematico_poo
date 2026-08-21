@@ -6,6 +6,9 @@ class Parser:
         self.puntero = 0
         self.limite = len(tokens)
 
+    def levantar_error(self, mensaje, pasos=0):
+        self.errores += f"ERROR: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
+
     def advance(self, pasos=1):
         token = self.tokens[self.puntero]
         self.puntero += pasos
@@ -22,6 +25,7 @@ class Parser:
     
     def parsear(self):
         trees = []
+
         if self.match("FIN"):
             raise Exception("Expresión vacia")
         
@@ -43,7 +47,7 @@ class Parser:
                 break
 
         if self.peek().tipo != "FIN":
-            self.errores += f"ERROR: Quedan tokens sin procesar: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
+            self.levantar_error("Quedan tokens sin procesar")
 
         if self.errores:
             raise Exception(self.errores)
@@ -104,20 +108,25 @@ class Parser:
             paren_tree = self.expr()
 
             if not self.match("PAREN_DER"):
-                self.errores += f"ERROR: No cerraste un parentesis: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
+                self.levantar_error("No cerraste un parentesis")
 
             else:
                 self.advance()
 
             return paren_tree
         
-        elif self.match("SUMA"):
-            self.advance()
-            return nodos.NodoPositivo(self.raiz_y_potencia())
-        
-        elif self.match("RESTA"):
-            self.advance()
-            return nodos.NodoNegativo(self.raiz_y_potencia())
+        elif self.match("SUMA") or self.match("RESTA"):
+            if self.match("SUMA", 1) or self.match("RESTA", 1):
+                self.levantar_error("Operador repetido", 1)
+
+            else:
+                operador = self.advance()
+
+                if operador.tipo == "SUMA":
+                    return nodos.NodoPositivo(self.raiz_y_potencia())
+                
+                elif operador.tipo == "RESTA":
+                    return nodos.NodoNegativo(self.raiz_y_potencia())
         
         elif self.match("NUMERO"):
             token = self.advance()
@@ -128,7 +137,8 @@ class Parser:
             return nodos.NodoIdentificador(token.valor)
         
         else:
-            self.errores += f"ERROR: Esperaba un número: Token: {self.peek().valor} Columna: {self.peek().columna}\n"
+            self.levantar_error("Esperaba un número")
+            
             
     
     

@@ -53,17 +53,16 @@ class NodoNegativo(NodoNumero):
         return -self.valor.evaluar(memoria)
 
 class NodoAsignacion:
-    def __init__(self, nombre, valor):
-        self.nombre = nombre
-        self.valor = valor
+    def __init__(self, var_nombre, var_valor):
+        self.var_nombre = var_nombre
+        self.var_valor = var_valor
 
     def evaluar(self, memoria):
-        valor_evaluado = self.valor.evaluar(memoria)
-        return memoria.declarar(self.nombre, valor_evaluado)
+        return memoria.declarar(self.var_nombre, self.var_valor.evaluar(memoria))
     
 class NodoIdentificador:
-    def __init__(self, nombre):
-        self.nombre = nombre
+    def __init__(self, var_nombre):
+        self.var_nombre = var_nombre
 
     def evaluar(self, memoria):
-        return memoria.obtener(self.nombre)
+        return memoria.obtener(self.var_nombre)

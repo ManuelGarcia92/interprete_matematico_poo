@@ -33,8 +33,7 @@ class Parser:
         
         while not self.match("FIN"):
             if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
-                token = self.advance()
-                self.advance()
+                token = self.advance(2)
                 nodo = self.expr()
                 asign_tree = nodos.NodoAsignacion(token.valor, nodo)
                 trees.append(asign_tree)

@@ -10,9 +10,11 @@ class Parser:
         self.errores += f"ERROR: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
 
     def advance(self, pasos=1):
-        token = self.tokens[self.puntero]
-        self.puntero += pasos
-        return token
+        if self.puntero + pasos < self.limite:
+            token = self.tokens[self.puntero]
+            self.puntero += pasos
+            return token
+        return None
     
     def peek(self, pasos=0):
         if self.puntero + pasos < self.limite:

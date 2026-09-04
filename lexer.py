@@ -62,6 +62,7 @@ class Lexer:
         while self.puntero < self.limite and (self.peek().isdigit() or self.peek() == "."):
             if self.peek() == ".":
                 contador_punto_decimal += 1
+                
             buffer += self.peek()
             self.puntero += 1
             columna = self.puntero

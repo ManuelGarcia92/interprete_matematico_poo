@@ -2,9 +2,9 @@ import nodos
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
-        self.errores = ""
-        self.puntero = 0
         self.limite = len(tokens)
+        self.puntero = 0
+        self.errores = ""
 
     def levantar_error(self, mensaje, pasos=0):
         self.errores += f"ERROR: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"

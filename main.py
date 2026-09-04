@@ -11,8 +11,10 @@ while True:
     limpiar_terminal()
     print("[Ingrese xyz para salir.]")
     texto = input(">>> : ")
+
     if texto == "xyz":
         break
+
     try:
         memoria = TablaDeSimbolos()
         lexer = Lexer(texto)
@@ -22,8 +24,10 @@ while True:
         interprete = Interprete(arbol)
         resultado = interprete.evaluar(memoria)
         print(resultado)
+
     except Exception as error:
         print(error)
+
     input("Presione ENTER para continuar...")
 
 

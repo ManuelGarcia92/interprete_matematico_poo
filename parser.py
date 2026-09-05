@@ -71,11 +71,11 @@ class Parser:
         return nodo
     
     def term(self):
-        nodo = self.raiz_y_potencia()
+        nodo = self.power()
 
         while self.match("MULTI") or self.match("DIV") or self.match("DIV_ENTERA"):
             operador = self.advance()
-            derecha = self.raiz_y_potencia()
+            derecha = self.power()
 
             if operador.tipo == "MULTI":
                 nodo = nodos.NodoMulti(nodo, derecha)
@@ -88,12 +88,12 @@ class Parser:
 
         return nodo   
     
-    def raiz_y_potencia(self):
+    def power(self):
         base = self.factor()
 
         if self.match("POTENCIA") or self.match("RAIZ_ENESIMA"):
             operador = self.advance()
-            derecha = self.raiz_y_potencia()
+            derecha = self.power()
 
             if operador.tipo == "POTENCIA":
                 return nodos.NodoPotencia(base, derecha)
@@ -123,10 +123,10 @@ class Parser:
             operador = self.advance()
 
             if operador.tipo == "SUMA":
-                return nodos.NodoPositivo(self.raiz_y_potencia())
+                return nodos.NodoPositivo(self.power())
             
             elif operador.tipo == "RESTA":
-                return nodos.NodoNegativo(self.raiz_y_potencia())
+                return nodos.NodoNegativo(self.power())
         
         elif self.match("NUMERO"):
             token = self.advance()

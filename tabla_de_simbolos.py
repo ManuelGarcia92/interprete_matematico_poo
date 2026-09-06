@@ -1,8 +1,8 @@
 class TablaDeSimbolos:
     def __init__(self):
         self.simbolos = {
-            "pi" : 3.1415926536,
-            "e"  : 2.7182818285
+        "pi" : 3.1415926536,
+        "e"  : 2.7182818285
         }
 
     def declarar(self, nombre, valor):

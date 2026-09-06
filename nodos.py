@@ -1,3 +1,5 @@
+import math
+
 class NodoBinario:
     def __init__(self, izquierda, derecha):
         self.izquierda = izquierda
@@ -18,15 +20,21 @@ class NodoMulti(NodoBinario):
 class NodoDiv(NodoBinario):
     def evaluar(self, memoria):
         if self.derecha.evaluar(memoria) == 0:
-            raise Exception("ERROR: No se puede dividir por 0")
+            raise Exception("Error matemático: No se puede dividir por 0")
         return self.izquierda.evaluar(memoria) / self.derecha.evaluar(memoria)
     
 class NodoDivEntera(NodoBinario):
     def evaluar(self, memoria):
         if self.derecha.evaluar(memoria) == 0:
-            raise Exception("ERROR: No se puede dividir por 0")
+            raise Exception("Error matemático: No se puede dividir por 0")
         return self.izquierda.evaluar(memoria) // self.derecha.evaluar(memoria)
-
+    
+class NodoModulo(NodoBinario):
+    def evaluar(self, memoria):
+        if self.derecha.evaluar(memoria) == 0:
+            raise Exception("Error matemático: Módulo no se puede dividir por 0")
+        return self.izquierda.evaluar(memoria) % self.derecha.evaluar(memoria)
+    
 class NodoPotencia(NodoBinario):
     def evaluar(self, memoria):
         return self.izquierda.evaluar(memoria) ** self.derecha.evaluar(memoria)
@@ -51,7 +59,44 @@ class NodoPositivo(NodoNumero):
 class NodoNegativo(NodoNumero):
     def evaluar(self, memoria):
         return -self.valor.evaluar(memoria)
+        
+class NodoSin(NodoNumero):
+    def evaluar(self, memoria):
+        return math.sin(self.valor.evaluar(memoria))
 
+class NodoAsin(NodoNumero):
+    def evaluar(self, memoria):
+        valor = self.valor.evaluar(memoria)
+        if not(-1 <= valor <= 1):
+            raise Exception("Error matemático: el argumento de asin debe estar entre -1 y 1")
+        return math.asin(valor)
+    
+class NodoCos(NodoNumero):
+    def evaluar(self, memoria):
+        return math.cos(self.valor.evaluar(memoria))
+
+class NodoAcos(NodoNumero):
+    def evaluar(self, memoria):
+        valor = self.valor.evaluar(memoria)
+        if not(-1 <= valor <= 1):
+            raise Exception("Error matemático: el argumento de acos debe estar entre -1 y 1")
+        return math.acos(valor)
+    
+class NodoTan(NodoNumero):
+    def evaluar(self, memoria):
+        return math.tan(self.valor.evaluar(memoria))
+    
+class NodoAtan(NodoNumero):
+    def evaluar(self, memoria):
+        return math.atan(self.valor.evaluar(memoria))
+
+class NodoLog(NodoNumero):
+    def evaluar(self, memoria):
+        valor = self.valor.evaluar(memoria)
+        if valor <= 0:
+            raise Exception("Error matemático: el argumento de log debe ser mayor a 0")
+        return math.log(valor)
+    
 class NodoAsignacion:
     def __init__(self, var_nombre, var_valor):
         self.var_nombre = var_nombre

@@ -1,4 +1,5 @@
 import nodos
+
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -7,7 +8,7 @@ class Parser:
         self.errores = ""
 
     def levantar_error(self, mensaje, pasos=0):
-        self.errores += f"ERROR: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
+        self.errores += f"Error: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
 
     def advance(self, pasos=1):
         if self.puntero + pasos < self.limite:
@@ -73,7 +74,7 @@ class Parser:
     def term(self):
         nodo = self.power()
 
-        while self.match("MULTI") or self.match("DIV") or self.match("DIV_ENTERA"):
+        while self.match("MULTI") or self.match("DIV") or self.match("DIV_ENTERA") or self.match("MOD"):
             operador = self.advance()
             derecha = self.power()
 
@@ -86,23 +87,26 @@ class Parser:
             elif operador.tipo == "DIV_ENTERA":
                 nodo = nodos.NodoDivEntera(nodo, derecha)
 
+            elif operador.tipo == "MOD":
+                nodo = nodos.NodoModulo(nodo, derecha)
+
         return nodo   
     
     def power(self):
-        base = self.factor()
+        nodo = self.factor()
 
         if self.match("POTENCIA") or self.match("RAIZ_ENESIMA"):
             operador = self.advance()
             derecha = self.power()
 
             if operador.tipo == "POTENCIA":
-                return nodos.NodoPotencia(base, derecha)
+                return nodos.NodoPotencia(nodo, derecha)
 
             if operador.tipo == "RAIZ_ENESIMA":
-                return nodos.NodoRaizEnesima(base, derecha)
+                return nodos.NodoRaizEnesima(nodo, derecha)
         
-        return base 
-
+        return nodo 
+    
     def factor(self):
         if self.match("PAREN_IZQ"):
             self.advance()
@@ -127,6 +131,41 @@ class Parser:
             
             elif operador.tipo == "RESTA":
                 return nodos.NodoNegativo(self.power())
+            
+        elif self.match("SIN"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoSin(operacion)
+
+        elif self.match("ASIN"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoAsin(operacion)
+        
+        elif self.match("COS"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoCos(operacion)
+        
+        elif self.match("ACOS"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoAcos(operacion)
+        
+        elif self.match("TAN"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoTan(operacion)
+
+        elif self.match("ATAN"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoAtan(operacion)
+        
+        elif self.match("LOG"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoLog(operacion)
         
         elif self.match("NUMERO"):
             token = self.advance()

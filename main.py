@@ -7,6 +7,8 @@ def limpiar_terminal() -> None:
     import os
     os.system("cls" if os.name == "nt" else "clear")
 
+memoria = TablaDeSimbolos()
+
 while True:
     limpiar_terminal()
     print("[Ingrese xyz para salir.]")
@@ -21,7 +23,6 @@ while True:
         parser = Parser(tokens)
         arbol = parser.parsear()
         interprete = Interprete(arbol)
-        memoria = TablaDeSimbolos()
         resultado = interprete.evaluar(memoria)
         if resultado:
             print(resultado)

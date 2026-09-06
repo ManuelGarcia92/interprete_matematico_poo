@@ -1,4 +1,4 @@
-from constantes import OPERADORES_SIMPLES, OPERADORES_DOBLES
+from constantes import PALABRAS_RESERVADAS, OPERADORES_SIMPLES, OPERADORES_DOBLES
 
 class Token:
     def __init__(self, tipo, valor, columna):
@@ -23,6 +23,10 @@ class Lexer:
             self.puntero += 1
             columna = self.puntero
 
+        if buffer in PALABRAS_RESERVADAS:
+            tipo_token = PALABRAS_RESERVADAS[buffer]
+            return Token(tipo_token, buffer, columna)  
+        
         return Token("IDENTIFICADOR", buffer, columna)    
 
     def leer_simbolo(self):

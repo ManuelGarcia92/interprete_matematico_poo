@@ -23,7 +23,10 @@ while True:
         arbol = parser.parsear()
         interprete = Interprete(arbol)
         resultado = interprete.evaluar(memoria)
-        print(resultado)
+        if resultado:
+            print(resultado)
+        else:
+            print()
 
     except Exception as error:
         print(error)

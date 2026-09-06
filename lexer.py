@@ -1,3 +1,5 @@
+from constantes import OPERADORES_SIMPLES, OPERADORES_DOBLES
+
 class Token:
     def __init__(self, tipo, valor, columna):
         self.tipo = tipo
@@ -9,21 +11,6 @@ class Lexer:
         self.texto = texto
         self.puntero = 0
         self.limite = len(texto)
-        self.OPERADORES_SIMPLES = {
-            "+": "SUMA",
-            "-": "RESTA",
-            "*": "MULTI",
-            "/": "DIV",
-            "$": "RAIZ_ENESIMA",
-            "(": "PAREN_IZQ",
-            ")": "PAREN_DER",
-            "=": "ASIGNACION",
-            ";": "PUNTO_Y_COMA"
-        }
-        self.OPERADORES_DOBLES = {
-            "**": "POTENCIA",
-            "//": "DIV_ENTERA"
-        }
 
     def peek(self, pasos=0):
         return self.texto[self.puntero + pasos]
@@ -41,15 +28,15 @@ class Lexer:
     def leer_simbolo(self):
         if self.puntero < self.limite:
 
-            if self.puntero < self.limite - 1 and self.peek() + self.peek(1) in self.OPERADORES_DOBLES:
+            if self.puntero < self.limite - 1 and self.peek() + self.peek(1) in OPERADORES_DOBLES:
                 valor_token = self.peek() + self.peek(1)
-                tipo_token = self.OPERADORES_DOBLES[valor_token]
+                tipo_token = OPERADORES_DOBLES[valor_token]
                 self.puntero += 2
                 columna = self.puntero
 
             else:
                 valor_token = self.peek()
-                tipo_token = self.OPERADORES_SIMPLES[valor_token]
+                tipo_token = OPERADORES_SIMPLES[valor_token]
                 self.puntero += 1  
                 columna = self.puntero 
 
@@ -93,7 +80,7 @@ class Lexer:
             elif char_actual.isalpha() or char_actual == "_":
                 tokens.append(self.leer_palabra())
 
-            elif char_actual in self.OPERADORES_SIMPLES:
+            elif char_actual in OPERADORES_SIMPLES:
                 tokens.append(self.leer_simbolo())
 
             elif char_actual.isdigit() or char_actual == ".":

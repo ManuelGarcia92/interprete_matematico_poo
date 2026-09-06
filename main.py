@@ -16,12 +16,12 @@ while True:
         break
 
     try:
-        memoria = TablaDeSimbolos()
         lexer = Lexer(texto)
         tokens = lexer.tokenizar()
         parser = Parser(tokens)
         arbol = parser.parsear()
         interprete = Interprete(arbol)
+        memoria = TablaDeSimbolos()
         resultado = interprete.evaluar(memoria)
         if resultado:
             print(resultado)

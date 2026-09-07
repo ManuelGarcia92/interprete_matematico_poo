@@ -63,9 +63,9 @@ class Parser:
         elif self.match("DEF"):
             self.advance()
             token_nombre = self.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
-            self.consumir("PAREN_IZQ", "Los argumentos de una función deben estar entre parentesis : ( )")
+            self.consumir("PAREN_IZQ", "Los argumentos de una función deben estar entre paréntesis : ( )")
             argumentos = self.parsear_argumentos()
-            self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar defiido dentro de llaves : { }")
+            self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves : { }")
             codigo = self.parsear()
             self.consumir("LLAVE_DER", "No cerraste la llave : }")
             nombre = token_nombre.valor if token_nombre else "error"
@@ -131,7 +131,7 @@ class Parser:
         if self.match("PAREN_IZQ"):
             self.advance()
             nodo = self.expr()
-            self.consumir("PAREN_DER", "No cerraste un parentesis")
+            self.consumir("PAREN_DER", "No cerraste un paréntesis")
             return nodo
         
         if self.match("SUMA") or self.match("RESTA"):

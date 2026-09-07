@@ -116,3 +116,43 @@ class NodoIdentificador:
 
     def evaluar(self, memoria):
         return memoria.obtener(self.var_nombre)
+
+class NodoFuncion:
+    def __init__(self, nombre, argumentos, codigo):
+        self.nombre = nombre
+        self.argumentos = argumentos
+        self.codigo = codigo
+
+    def evaluar(self, memoria):
+        memoria.declarar_funcion(self.nombre, self.argumentos, self.codigo)
+
+class NodoLlamada:
+    def __init__(self, nombre, argumentos):
+        self.nombre = nombre
+        self.argumentos = argumentos
+
+    def evaluar(self, memoria):
+        func = memoria.llamar_funcion(self.nombre)
+        param_nombres = func["argumentos"]
+        cuerpo_codigo = func["codigo"]
+
+        valores = [arg.evaluar(memoria) for arg in self.argumentos]
+
+        for param, valor in zip(param_nombres, valores):
+            memoria.declarar(param.var_nombre, valor)
+
+        resultado = None
+
+        for instruccion in cuerpo_codigo:
+            resultado = instruccion.evaluar(memoria)
+
+        return resultado
+
+class NodoReturn:
+    def __init__(self, expresion):
+        self.expresion = expresion
+
+    def evaluar(self, memoria):
+        return self.expresion.evaluar(memoria)
+    
+            

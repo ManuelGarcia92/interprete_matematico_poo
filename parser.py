@@ -33,11 +33,46 @@ class Parser:
             raise Exception("Expresión vacia")
         
         while not self.match("FIN"):
+            if self.match("LLAVE_DER"):
+                break
+
             if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
                 token = self.advance(2)
                 nodo = self.expr()
                 asign_tree = nodos.NodoAsignacion(token.valor, nodo)
                 trees.append(asign_tree)
+
+            elif self.puntero < self.limite - 1 and self.match("DEF") and self.match("IDENTIFICADOR", 1):
+                self.advance()
+                token = self.advance()
+                nombre = token.valor
+
+                if not self.match("PAREN_IZQ"):
+                    self.levantar_error("Los argumentos de una función deben estar entre parentesis : ( )")
+
+                else:
+                    self.advance()
+                    argumentos = self.parsear_argumentos()
+
+                    if not self.match("LLAVE_IZQ"):
+                        self.levantar_error("El cuerpo de una función debe estar definido dentro de llaves : { }")
+
+                    else:
+                        self.advance()
+                        codigo = self.parsear()
+
+                        if not self.match("LLAVE_DER"):
+                            self.levantar_error("No cerraste la llave : }")
+            
+                        else:
+                            self.advance()
+                            func_tree = nodos.NodoFuncion(nombre, argumentos, codigo)
+                            trees.append(func_tree)
+                    
+            elif self.match("RETURN"):
+                self.advance()
+                expresion = self.expr()
+                trees.append(nodos.NodoReturn(expresion))
 
             else:
                 trees.append(self.expr())
@@ -48,14 +83,32 @@ class Parser:
             else:
                 break
 
-        if self.peek().tipo != "FIN":
+        if self.peek().tipo != "FIN" and not self.match("LLAVE_DER"):
             self.levantar_error("Quedan tokens sin procesar")
 
         if self.errores:
             raise Exception(self.errores)
         
         return trees
+    
+    def parsear_argumentos(self):
+        argumentos = []
 
+        if not self.match("PAREN_DER"):
+            argumentos.append(self.expr())
+
+            while self.match("COMA"):
+                self.advance()
+                argumentos.append(self.expr())
+                
+        if not self.match("PAREN_DER"):        
+            self.levantar_error("Falta el paréntesis de cierre ) en los argumentos")
+
+        else:
+            self.advance()
+
+        return argumentos
+    
     def expr(self):
         nodo = self.term()
 
@@ -178,6 +231,10 @@ class Parser:
         
         elif self.match("IDENTIFICADOR"):
             token = self.advance()
+            if self.match("PAREN_IZQ"):
+                self.advance()
+                argumentos = self.parsear_argumentos()
+                return nodos.NodoLlamada(token.valor, argumentos)
             return nodos.NodoIdentificador(token.valor)
         
         else:

@@ -17,16 +17,13 @@ class Lexer:
     
     def leer_palabra(self):
         buffer = ""
-
         while self.puntero < self.limite and (self.peek().isalnum() or self.peek() == "_"):
             buffer += self.peek()
             self.puntero += 1
             columna = self.puntero
-
         if buffer in PALABRAS_RESERVADAS:
             tipo_token = PALABRAS_RESERVADAS[buffer]
             return Token(tipo_token, buffer, columna)  
-        
         return Token("IDENTIFICADOR", buffer, columna)    
 
     def leer_simbolo(self):
@@ -37,13 +34,11 @@ class Lexer:
                 tipo_token = OPERADORES_DOBLES[valor_token]
                 self.puntero += 2
                 columna = self.puntero
-
             else:
                 valor_token = self.peek()
                 tipo_token = OPERADORES_SIMPLES[valor_token]
                 self.puntero += 1  
                 columna = self.puntero 
-
             return Token(tipo_token, valor_token, columna)   
             
     def leer_numero(self):
@@ -53,7 +48,6 @@ class Lexer:
         while self.puntero < self.limite and (self.peek().isdigit() or self.peek() == "."):
             if self.peek() == ".":
                 contador_punto_decimal += 1
-                
             buffer += self.peek()
             self.puntero += 1
             columna = self.puntero
@@ -64,12 +58,9 @@ class Lexer:
         if contador_punto_decimal:
             if buffer[0] == ".":
                 buffer = "0" + buffer
-
             elif buffer[-1] == ".":
                 buffer += "0"
-
             return Token("NUMERO", float(buffer), columna)
-       
         return Token("NUMERO", int(buffer), columna)
         
     def tokenizar(self):

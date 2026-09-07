@@ -1,4 +1,5 @@
 PALABRAS_RESERVADAS = {
+    "abs"  : "ABS",
     "sin"  : "SIN",
     "asin" : "ASIN",
     "cos"  : "COS",

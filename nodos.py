@@ -59,7 +59,12 @@ class NodoPositivo(NodoNumero):
 class NodoNegativo(NodoNumero):
     def evaluar(self, memoria):
         return -self.valor.evaluar(memoria)
-        
+    
+class NodoAbs(NodoNumero):
+    def evaluar(self, memoria):
+        valor = self.valor.evaluar(memoria)
+        return valor if valor >= 0 else -valor    
+       
 class NodoSin(NodoNumero):
     def evaluar(self, memoria):
         return math.sin(self.valor.evaluar(memoria))

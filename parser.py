@@ -132,6 +132,11 @@ class Parser:
             elif operador.tipo == "RESTA":
                 return nodos.NodoNegativo(self.power())
             
+        elif self.match("ABS"):
+            self.advance()
+            operacion = self.factor()
+            return nodos.NodoAbs(operacion)  
+          
         elif self.match("SIN"):
             self.advance()
             operacion = self.factor()

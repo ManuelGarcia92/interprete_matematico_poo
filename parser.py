@@ -33,26 +33,26 @@ class Parser:
         return None
     
     def parsear(self):
-        arbol = []
+        instrucciones = []
 
         if self.match("FIN"):
             raise Exception("Expresión vacia")
         
         while not self.match("FIN") and not self.match("LLAVE_DER"):
-            arbol.append(self.parsear_instrucciones())
+            instrucciones.append(self.parsear_instrucciones())
 
             if self.match("PUNTO_Y_COMA"):
                 self.advance()
             else:
                 break
 
-        if self.peek() and self.peek().tipo != "FIN" and not self.match("LLAVE_DER"):
+        if self.peek() and not self.match("FIN") and not self.match("LLAVE_DER"):
             self.levantar_error("Quedan tokens sin procesar")
 
         if self.errores:
             raise Exception(self.errores)
         
-        return arbol
+        return instrucciones
         
     def parsear_instrucciones(self):
         if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):

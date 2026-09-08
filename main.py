@@ -7,31 +7,33 @@ def limpiar_terminal() -> None:
     import os
     os.system("cls" if os.name == "nt" else "clear")
 
-memoria = TablaDeSimbolos()
+def main():
+    memoria = TablaDeSimbolos()
 
-while True:
-    limpiar_terminal()
-    print("[Ingrese xyz para salir.]")
-    texto = input(">>> : ")
+    while True:
+        limpiar_terminal()
+        print("[Ingrese xyz para salir.]")
+        texto = input(">>> : ")
 
-    if texto == "xyz":
-        break
+        if texto == "xyz":
+            break
 
-    try:
-        lexer = Lexer(texto)
-        tokens = lexer.tokenizar()
-        parser = Parser(tokens)
-        arbol = parser.parsear()
-        interprete = Interprete(arbol)
-        resultado = interprete.evaluar(memoria)
-        if resultado:
-            print(resultado)
-        else:
-            print()
+        try:
+            lexer = Lexer(texto)
+            tokens = lexer.tokenizar()
+            parser = Parser(tokens)
+            arbol = parser.parsear()
+            interprete = Interprete(arbol)
+            resultado = interprete.evaluar(memoria)
+            if resultado:
+                print(resultado)
+            else:
+                print()
 
-    except Exception as error:
-        print(error)
+        except Exception as error:
+            print(error)
 
-    input("Presione ENTER para continuar...")
-
-
+        input("Presione ENTER para continuar...")
+        
+if __name__ == "__main__":
+    main()

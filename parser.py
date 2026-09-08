@@ -11,7 +11,7 @@ class Parser:
         self.errores += f"Error: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
 
     def advance(self, pasos=1):
-        if self.puntero + pasos <= self.limite:
+        if self.puntero + pasos < self.limite:
             token = self.tokens[self.puntero]
             self.puntero += pasos
             return token
@@ -33,13 +33,13 @@ class Parser:
         return None
     
     def parsear(self):
-        trees = []
+        arbol = []
 
         if self.match("FIN"):
             raise Exception("Expresión vacia")
         
         while not self.match("FIN") and not self.match("LLAVE_DER"):
-            trees.append(self.parsear_instrucciones())
+            arbol.append(self.parsear_instrucciones())
 
             if self.match("PUNTO_Y_COMA"):
                 self.advance()
@@ -52,13 +52,15 @@ class Parser:
         if self.errores:
             raise Exception(self.errores)
         
-        return trees
+        return arbol
         
     def parsear_instrucciones(self):
         if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
-            token_id = self.advance(2)
+            token_id = self.advance()
+            self.advance()
+            nombre_id = token_id.valor
             nodo_expr = self.expr()
-            return nodos.NodoAsignacion(token_id, nodo_expr)
+            return nodos.NodoAsignacion(nombre_id, nodo_expr)
             
         elif self.match("DEF"):
             self.advance()
@@ -66,15 +68,15 @@ class Parser:
             self.consumir("PAREN_IZQ", "Los argumentos de una función deben estar entre paréntesis : ( )")
             argumentos = self.parsear_argumentos()
             self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves : { }")
-            codigo = self.parsear()
+            cuerpo = self.parsear()
             self.consumir("LLAVE_DER", "No cerraste la llave : }")
             nombre = token_nombre.valor if token_nombre else "error"
-            return nodos.NodoFuncion(nombre, argumentos, codigo)
+            return nodos.NodoFuncion(nombre, argumentos, cuerpo)
         
         elif self.match("RETURN"):
             self.advance()
             return nodos.NodoReturn(self.expr())
-        
+    
         else:
             return self.expr()
         
@@ -130,9 +132,9 @@ class Parser:
     def factor(self):
         if self.match("PAREN_IZQ"):
             self.advance()
-            nodo = self.expr()
+            nodo_expr = self.expr()
             self.consumir("PAREN_DER", "No cerraste un paréntesis")
-            return nodo
+            return nodo_expr
         
         if self.match("SUMA") or self.match("RESTA"):
             if self.match("SUMA", 1) or self.match("RESTA", 1):

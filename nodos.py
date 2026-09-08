@@ -138,21 +138,31 @@ class NodoLlamada:
 
         valores = [arg.evaluar(memoria) for arg in self.argumentos]
 
+        entorno_local = memoria.crear_entorno_local()
+        
         for param, valor in zip(param_nombres, valores):
-            memoria.declarar(param.var_nombre, valor)
+            entorno_local.declarar(param.var_nombre, valor)
 
         resultado = None
-
-        for instruccion in cuerpo_codigo:
-            resultado = instruccion.evaluar(memoria)
-
+        
+        try:
+            for instruccion in cuerpo_codigo:
+                resultado = instruccion.evaluar(entorno_local)
+        except ExepcionReturn as ret:
+            return ret
+        
         return resultado
+    
+class ExepcionReturn(Exception):
+    def __init__(self, expresion):
+        self.expresion = expresion
 
 class NodoReturn:
     def __init__(self, expresion):
         self.expresion = expresion
 
     def evaluar(self, memoria):
-        return self.expresion.evaluar(memoria)
+        valor = self.expresion.evaluar(memoria) if self.expresion else None
+        raise ExepcionReturn(valor)
     
             

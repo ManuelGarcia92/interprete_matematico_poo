@@ -117,6 +117,18 @@ class NodoIdentificador:
     def evaluar(self, memoria):
         return memoria.obtener(self.var_nombre)
 
+class ExepcionReturn(Exception):
+    def __init__(self, expresion):
+        self.expresion = expresion
+
+class NodoReturn:
+    def __init__(self, expresion):
+        self.expresion = expresion
+
+    def evaluar(self, memoria):
+        valor = self.expresion.evaluar(memoria) if self.expresion else None
+        raise ExepcionReturn(valor)
+    
 class NodoFuncion:
     def __init__(self, nombre, argumentos, cuerpo):
         self.nombre = nombre
@@ -151,18 +163,4 @@ class NodoLlamada:
         except ExepcionReturn as ret:
             return ret
         
-        return resultado
-    
-class ExepcionReturn(Exception):
-    def __init__(self, expresion):
-        self.expresion = expresion
-
-class NodoReturn:
-    def __init__(self, expresion):
-        self.expresion = expresion
-
-    def evaluar(self, memoria):
-        valor = self.expresion.evaluar(memoria) if self.expresion else None
-        raise ExepcionReturn(valor)
-    
-            
+        return resultado           

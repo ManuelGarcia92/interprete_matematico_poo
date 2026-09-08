@@ -21,10 +21,10 @@ class TablaDeSimbolos:
     def crear_entorno_local(self):
         return TablaDeSimbolos(padre=self)
 
-    def declarar_funcion(self, nombre, argumentos, codigo):
+    def declarar_funcion(self, nombre, argumentos, cuerpo):
         if nombre in self.funciones:
             raise Exception(f"Error semántico: La función {nombre} ya ha sido declarada.")
-        self.funciones[nombre] = {"argumentos": argumentos, "codigo": codigo}
+        self.funciones[nombre] = {"argumentos": argumentos, "cuerpo": cuerpo}
 
     def llamar_funcion(self, nombre):
         if nombre not in self.funciones:

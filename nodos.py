@@ -118,13 +118,13 @@ class NodoIdentificador:
         return memoria.obtener(self.var_nombre)
 
 class NodoFuncion:
-    def __init__(self, nombre, argumentos, codigo):
+    def __init__(self, nombre, argumentos, cuerpo):
         self.nombre = nombre
         self.argumentos = argumentos
-        self.codigo = codigo
+        self.cuerpo = cuerpo
 
     def evaluar(self, memoria):
-        memoria.declarar_funcion(self.nombre, self.argumentos, self.codigo)
+        memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo)
 
 class NodoLlamada:
     def __init__(self, nombre, argumentos):
@@ -134,7 +134,7 @@ class NodoLlamada:
     def evaluar(self, memoria):
         func = memoria.llamar_funcion(self.nombre)
         param_nombres = func["argumentos"]
-        cuerpo_codigo = func["codigo"]
+        cuerpo_codigo = func["cuerpo"]
 
         valores = [arg.evaluar(memoria) for arg in self.argumentos]
 

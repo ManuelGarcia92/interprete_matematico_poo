@@ -58,9 +58,8 @@ class Parser:
         if self.puntero < self.limite - 1 and self.match("IDENTIFICADOR") and self.match("ASIGNACION", 1):
             token_id = self.advance()
             self.advance()
-            nombre_id = token_id.valor
             nodo_expr = self.expr()
-            return nodos.NodoAsignacion(nombre_id, nodo_expr)
+            return nodos.NodoAsignacion(token_id.valor, nodo_expr)
             
         elif self.match("DEF"):
             self.advance()
@@ -70,8 +69,7 @@ class Parser:
             self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves : { }")
             cuerpo = self.parsear()
             self.consumir("LLAVE_DER", "No cerraste la llave : }")
-            nombre = token_nombre.valor
-            return nodos.NodoFuncion(nombre, argumentos, cuerpo)
+            return nodos.NodoFuncion(token_nombre.valor, argumentos, cuerpo)
         
         elif self.match("RETURN"):
             self.advance()
@@ -174,3 +172,7 @@ class Parser:
             
             
     
+    
+
+  
+

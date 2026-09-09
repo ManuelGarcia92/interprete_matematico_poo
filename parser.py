@@ -158,11 +158,7 @@ class Parser:
                 return nodos.NodoPositivo(self.power())
             else:
                 return nodos.NodoNegativo(self.power())
-        
-        if self.match("NUMERO"):
-            token = self.advance()
-            return nodos.NodoNumero(token.valor)
-        
+            
         if self.match("IDENTIFICADOR"):
             token_id = self.advance()
             if self.match("PAREN_IZQ"):
@@ -170,6 +166,10 @@ class Parser:
                 argumentos = self.parsear_argumentos()
                 return nodos.NodoLlamada(token_id.valor, argumentos)
             return nodos.NodoIdentificador(token_id.valor)
+        
+        if self.match("NUMERO"):
+            token = self.advance()
+            return nodos.NodoNumero(token.valor)
         
         self.levantar_error("Esperaba un número")
         return None

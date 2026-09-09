@@ -1,5 +1,5 @@
 class TablaDeSimbolos:
-    def __init__(self, padre = None):
+    def __init__(self, padre=None):
         self.padre = padre
         self.simbolos = {}
         self.funciones = {}

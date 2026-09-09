@@ -14,10 +14,8 @@ def main():
         limpiar_terminal()
         print("[Ingrese xyz para salir.]")
         texto = input(">>> : ")
-
         if texto == "xyz":
             break
-
         try:
             lexer = Lexer(texto)
             tokens = lexer.tokenizar()
@@ -29,10 +27,9 @@ def main():
                 print(resultado)
             else:
                 print()
-
         except Exception as error:
             print(error)
-
+            
         input("Presione ENTER para continuar...")
         
 if __name__ == "__main__":

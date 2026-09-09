@@ -70,7 +70,7 @@ class Parser:
             self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves : { }")
             cuerpo = self.parsear()
             self.consumir("LLAVE_DER", "No cerraste la llave : }")
-            nombre = token_nombre.valor if token_nombre else "error"
+            nombre = token_nombre.valor
             return nodos.NodoFuncion(nombre, argumentos, cuerpo)
         
         elif self.match("RETURN"):
@@ -174,7 +174,3 @@ class Parser:
             
             
     
-    
-
-  
-

@@ -1,14 +1,6 @@
 PALABRAS_RESERVADAS = {
     "def"    : "DEF",
     "return" : "RETURN",
-    "abs"    : "ABS",
-    "sin"    : "SIN",
-    "asin"   : "ASIN",
-    "cos"    : "COS",
-    "acos"   : "ACOS",
-    "tan"    : "TAN",
-    "atan"   : "ATAN",
-    "log"    : "LOG"
 }
 
 OPERADORES_SIMPLES = {
@@ -25,7 +17,6 @@ OPERADORES_SIMPLES = {
     "="  : "ASIGNACION",
     ","  : "COMA",
     ";"  : "PUNTO_Y_COMA",
-    "\n" : "SALTO_DE_LINEA"
 }
 
 OPERADORES_DOBLES = {

@@ -3,11 +3,7 @@ class TablaDeSimbolos:
         self.padre = padre
         self.simbolos = {}
         self.funciones = {}
-
-        if self.padre is None:
-            self.simbolos["pi"] = 3.1415926536
-            self.simbolos["e"]  = 2.7182818285
-                 
+                
     def declarar(self, nombre, valor):
         self.simbolos[nombre] = valor
 

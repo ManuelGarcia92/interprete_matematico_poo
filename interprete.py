@@ -6,13 +6,13 @@ class Interprete:
 
     def evaluar(self, memoria):
         resultado = None
-
-        try:
-            for instruccion in self.instrucciones:
-                resultado = instruccion.evaluar(memoria)
-        except ExepcionReturn as ret:
-                return ret
-        
-        return resultado
+        if self.instrucciones is not None:
+            try:
+                for instruccion in self.instrucciones:
+                    resultado = instruccion.evaluar(memoria)
+            except ExepcionReturn as ret:
+                    return ret
+            return resultado
+        return None
 
 

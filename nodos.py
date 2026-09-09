@@ -1,5 +1,3 @@
-import math
-
 class NodoBinario:
     def __init__(self, izquierda, derecha):
         self.izquierda = izquierda
@@ -60,62 +58,20 @@ class NodoNegativo(NodoNumero):
     def evaluar(self, memoria):
         return -self.valor.evaluar(memoria)
     
-class NodoAbs(NodoNumero):
-    def evaluar(self, memoria):
-        valor = self.valor.evaluar(memoria)
-        return valor if valor >= 0 else -valor    
-       
-class NodoSin(NodoNumero):
-    def evaluar(self, memoria):
-        return math.sin(self.valor.evaluar(memoria))
-
-class NodoAsin(NodoNumero):
-    def evaluar(self, memoria):
-        valor = self.valor.evaluar(memoria)
-        if not(-1 <= valor <= 1):
-            raise Exception("Error matemático: el argumento de asin debe estar entre -1 y 1")
-        return math.asin(valor)
-    
-class NodoCos(NodoNumero):
-    def evaluar(self, memoria):
-        return math.cos(self.valor.evaluar(memoria))
-
-class NodoAcos(NodoNumero):
-    def evaluar(self, memoria):
-        valor = self.valor.evaluar(memoria)
-        if not(-1 <= valor <= 1):
-            raise Exception("Error matemático: el argumento de acos debe estar entre -1 y 1")
-        return math.acos(valor)
-    
-class NodoTan(NodoNumero):
-    def evaluar(self, memoria):
-        return math.tan(self.valor.evaluar(memoria))
-    
-class NodoAtan(NodoNumero):
-    def evaluar(self, memoria):
-        return math.atan(self.valor.evaluar(memoria))
-
-class NodoLog(NodoNumero):
-    def evaluar(self, memoria):
-        valor = self.valor.evaluar(memoria)
-        if valor <= 0:
-            raise Exception("Error matemático: el argumento de log debe ser mayor a 0")
-        return math.log(valor)
-    
 class NodoAsignacion:
-    def __init__(self, var_nombre, var_valor):
-        self.var_nombre = var_nombre
-        self.var_valor = var_valor
+    def __init__(self, nombre, valor):
+        self.nombre = nombre
+        self.valor = valor
 
     def evaluar(self, memoria):
-        return memoria.declarar(self.var_nombre, self.var_valor.evaluar(memoria))
+        return memoria.declarar(self.nombre, self.valor.evaluar(memoria))
     
 class NodoIdentificador:
-    def __init__(self, var_nombre):
-        self.var_nombre = var_nombre
+    def __init__(self, nombre):
+        self.nombre = nombre
 
     def evaluar(self, memoria):
-        return memoria.obtener(self.var_nombre)
+        return memoria.obtener(self.nombre)
 
 class ExepcionReturn(Exception):
     def __init__(self, expresion):
@@ -153,7 +109,7 @@ class NodoLlamada:
         entorno_local = memoria.crear_entorno_local()
         
         for param, valor in zip(param_nombres, valores):
-            entorno_local.declarar(param.var_nombre, valor)
+            entorno_local.declarar(param.nombre, valor)
 
         resultado = None
         

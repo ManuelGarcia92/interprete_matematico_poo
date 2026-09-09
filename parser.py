@@ -8,12 +8,12 @@ class Parser:
         self.errores = ""
 
     def levantar_error(self, mensaje, pasos=0):
-        self.errores += f"Error: {mensaje}: Token: {self.peek(pasos).valor} Columna: {self.peek(pasos).columna}\n"
+        self.errores += f"Error: {mensaje}: Token: {self.peek(pasos).valor} Linea: {self.peek(pasos).linea} Columna: {self.peek(pasos).columna}\n"
 
-    def advance(self, pasos=1):
-        if self.puntero + pasos < self.limite:
+    def advance(self):
+        if self.puntero < self.limite:
             token = self.tokens[self.puntero]
-            self.puntero += pasos
+            self.puntero += 1
             return token
         return None
     
@@ -32,6 +32,14 @@ class Parser:
         self.levantar_error(mensaje_error)
         return None
     
+    def sincronizar(self):
+        while not self.match("FIN"):
+            if self.peek(-1) and self.peek(-1).tipo == "PUNTO_Y_COMA":
+                return
+            if self.match("DEF") or self.match("RETURN") or self.match("IDENTIFICADOR"):
+                return
+            self.advance()
+
     def parsear(self):
         instrucciones = []
 
@@ -39,15 +47,20 @@ class Parser:
             raise Exception("Expresión vacia")
         
         while not self.match("FIN") and not self.match("LLAVE_DER"):
-            instrucciones.append(self.parsear_instrucciones())
+            instruccion = self.parsear_instrucciones()
 
-            if self.match("PUNTO_Y_COMA"):
-                self.advance()
+            if instruccion is not None:
+                instrucciones.append(instruccion)
+
+                if self.match("PUNTO_Y_COMA"):
+                    self.advance()
             else:
-                break
+                self.levantar_error("Sintaxis erronea")
+                self.sincronizar()
 
         if self.peek() and not self.match("FIN") and not self.match("LLAVE_DER"):
             self.levantar_error("Quedan tokens sin procesar")
+            return None
 
         if self.errores:
             raise Exception(self.errores)
@@ -63,13 +76,13 @@ class Parser:
             
         elif self.match("DEF"):
             self.advance()
-            token_nombre = self.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
+            token_id = self.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
             self.consumir("PAREN_IZQ", "Los argumentos de una función deben estar entre paréntesis : ( )")
             argumentos = self.parsear_argumentos()
             self.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves : { }")
             cuerpo = self.parsear()
             self.consumir("LLAVE_DER", "No cerraste la llave : }")
-            return nodos.NodoFuncion(token_nombre.valor, argumentos, cuerpo)
+            return nodos.NodoFuncion(token_id.valor, argumentos, cuerpo)
         
         elif self.match("RETURN"):
             self.advance()
@@ -88,7 +101,7 @@ class Parser:
                 
         self.consumir("PAREN_DER", "Falta el paréntesis de cierre ) en los argumentos")
         return argumentos
-    
+
     def expr(self):
         nodo = self.term()
         while self.match("SUMA") or self.match("RESTA"):
@@ -135,37 +148,28 @@ class Parser:
             return nodo_expr
         
         if self.match("SUMA") or self.match("RESTA"):
-            if self.match("SUMA", 1) or self.match("RESTA", 1):
-                self.levantar_error("Operador repetido", 1)
             operador = self.advance()
+
+            if self.match("SUMA") or self.match("RESTA"):
+                self.levantar_error("Operador repetido")
+                return None
+            
             if operador.tipo == "SUMA":
                 return nodos.NodoPositivo(self.power())
             else:
                 return nodos.NodoNegativo(self.power())
-            
-        funciones_nativas = {
-            "ABS"  : nodos.NodoAbs,  "SIN"  : nodos.NodoSin,  "ASIN" : nodos.NodoAsin,
-            "COS"  : nodos.NodoCos,  "ACOS" : nodos.NodoAcos, "TAN"  : nodos.NodoTan,
-            "ATAN" : nodos.NodoAtan, "LOG"  : nodos.NodoLog
-        }
-
-        token_actual = self.peek()
-        if token_actual and token_actual.tipo in funciones_nativas:
-            self.advance()
-            operacion = self.factor()
-            return funciones_nativas[token_actual.tipo](operacion)
         
         if self.match("NUMERO"):
             token = self.advance()
             return nodos.NodoNumero(token.valor)
         
         if self.match("IDENTIFICADOR"):
-            token = self.advance()
+            token_id = self.advance()
             if self.match("PAREN_IZQ"):
                 self.advance()
                 argumentos = self.parsear_argumentos()
-                return nodos.NodoLlamada(token.valor, argumentos)
-            return nodos.NodoIdentificador(token.valor)
+                return nodos.NodoLlamada(token_id.valor, argumentos)
+            return nodos.NodoIdentificador(token_id.valor)
         
         self.levantar_error("Esperaba un número")
         return None

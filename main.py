@@ -18,8 +18,8 @@ def main():
             tokens = lexer.tokenizar()
             parser = Parser(tokens)
             arbol = parser.parsear()
-            interprete = Evaluador(arbol)
-            resultado = interprete.evaluar(memoria)
+            evaluador = Evaluador(arbol)
+            resultado = evaluador.evaluar(memoria)
             if resultado:
                 print(resultado)
             else:

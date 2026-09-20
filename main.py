@@ -6,11 +6,10 @@ from evaluador import Evaluador
 
 def main():
     memoria = TablaDeSimbolos()
-
     while True:
         limpiar_terminal()
         print("[Ingrese break para salir]")
-        texto = input(">>>: ")
+        texto = input(">>> : ")
         if texto == "break":
             break
         try:

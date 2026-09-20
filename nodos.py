@@ -1,48 +1,16 @@
+from constantes import OPERACIONES
 class NodoBinario:
-    def __init__(self, izquierda, derecha):
+    def __init__(self, operador, izquierda, derecha):
+        self.operador = operador
         self.izquierda = izquierda
         self.derecha = derecha
     
-class NodoSuma(NodoBinario):
     def evaluar(self, memoria):
-        return self.izquierda.evaluar(memoria) + self.derecha.evaluar(memoria)
-
-class NodoResta(NodoBinario):
-    def evaluar(self, memoria):
-        return self.izquierda.evaluar(memoria) - self.derecha.evaluar(memoria)
-    
-class NodoMulti(NodoBinario):
-    def evaluar(self, memoria):
-        return self.izquierda.evaluar(memoria) * self.derecha.evaluar(memoria)
-    
-class NodoDiv(NodoBinario):
-    def evaluar(self, memoria):
-        if self.derecha.evaluar(memoria) == 0:
-            raise Exception("Error matemático: No se puede dividir por 0")
-        return self.izquierda.evaluar(memoria) / self.derecha.evaluar(memoria)
-    
-class NodoDivEntera(NodoBinario):
-    def evaluar(self, memoria):
-        if self.derecha.evaluar(memoria) == 0:
-            raise Exception("Error matemático: No se puede dividir por 0")
-        return self.izquierda.evaluar(memoria) // self.derecha.evaluar(memoria)
-    
-class NodoModulo(NodoBinario):
-    def evaluar(self, memoria):
-        if self.derecha.evaluar(memoria) == 0:
-            raise Exception("Error matemático: Módulo no se puede dividir por 0")
-        return self.izquierda.evaluar(memoria) % self.derecha.evaluar(memoria)
-    
-class NodoPotencia(NodoBinario):
-    def evaluar(self, memoria):
-        return self.izquierda.evaluar(memoria) ** self.derecha.evaluar(memoria)
-    
-class NodoRaizEnesima(NodoBinario):
-    def evaluar(self, memoria):
-        if self.izquierda.evaluar(memoria) < 0 and self.derecha.evaluar(memoria) % 2 != 0:
-            return -(-self.izquierda.evaluar(memoria)) ** (1 / self.derecha.evaluar(memoria))
-        return self.izquierda.evaluar(memoria) ** (1 / self.derecha.evaluar(memoria))
-    
+        valor_izquierda = self.izquierda.evaluar(memoria)
+        valor_derecha = self.derecha.evaluar(memoria)
+        resultado = OPERACIONES[self.operador](valor_izquierda, valor_derecha)
+        return resultado
+        
 class NodoNumero:
     def __init__(self, valor):
         self.valor = valor

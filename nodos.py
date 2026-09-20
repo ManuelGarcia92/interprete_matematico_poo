@@ -42,8 +42,8 @@ class NodoIdentificador:
         return memoria.obtener(self.nombre)
 
 class ExepcionReturn(Exception):
-    def __init__(self, expresion):
-        self.expresion = expresion
+    def __init__(self, valor):
+        self.valor = valor
 
 class NodoReturn:
     def __init__(self, expresion):
@@ -85,6 +85,6 @@ class NodoLlamada:
             for instruccion in cuerpo_codigo:
                 resultado = instruccion.evaluar(entorno_local)
         except ExepcionReturn as ret:
-            return ret
+            return ret.valor
         
         return resultado           

@@ -11,7 +11,7 @@ class Evaluador:
                 for instruccion in self.instrucciones:
                     resultado = instruccion.evaluar(memoria)
             except ExepcionReturn as ret:
-                    return ret
+                    return ret.valor
             return resultado
         return None
 

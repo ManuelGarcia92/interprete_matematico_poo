@@ -2,7 +2,7 @@ class TablaDeSimbolos:
     def __init__(self, padre=None):
         self.memoria = {}
         self.padre = padre
-                
+
     def declarar(self, nombre, valor):
         self.memoria[nombre] = valor
 

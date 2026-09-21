@@ -4,7 +4,7 @@ from lexer import Lexer
 from parser import Parser
 from evaluador import Evaluador
 
-def main():
+def main() -> None:
     memoria = TablaDeSimbolos()
     while True:
         limpiar_terminal()

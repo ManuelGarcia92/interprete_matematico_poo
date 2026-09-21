@@ -1,5 +1,4 @@
 from nodos import ExepcionReturn
-
 class Evaluador:
     def __init__(self, instrucciones):
         self.instrucciones = instrucciones

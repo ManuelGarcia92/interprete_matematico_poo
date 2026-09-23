@@ -35,8 +35,8 @@ class Parser:
         while not self.match("FIN") and not self.match("LLAVE_DER"):
             instrucciones.append(self.parsear_instrucciones())
 
-            if not self.match("LLAVE_DER"):
-                self.consumir("PUNTO_Y_COMA", "Todas las instrucciones deben terminar en ; ")
+            if self.match("PUNTO_Y_COMA"):
+                self.advance()
 
         if self.peek() and not self.match("FIN") and not self.match("LLAVE_DER"):
             self.levantar_error("Quedan tokens sin procesar")

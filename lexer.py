@@ -23,6 +23,7 @@ class Lexer:
         buffer = ""
         while self.puntero < self.limite and (self.peek().isalnum() or self.peek() == "_"):
             buffer += self.advance()
+            
         if buffer in PALABRAS_RESERVADAS:
             tipo_token = PALABRAS_RESERVADAS[buffer]
 

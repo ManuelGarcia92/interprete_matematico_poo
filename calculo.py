@@ -28,4 +28,6 @@ def procesar_expresion(texto: str, memoria: TablaDeSimbolos) -> int | float | No
     parser = Parser(tokens)
     arbol = parser.parsear()
     resultado = evaluar_instrucciones(arbol, memoria)
+    if resultado is None:
+        resultado = ""
     return resultado

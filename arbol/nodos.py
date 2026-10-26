@@ -75,6 +75,8 @@ class NodoLlamarFun:
         func = memoria.llamar_funcion(self.nombre)
         param_nombres = func["argumentos"]
         cuerpo_codigo = func["cuerpo"]
+        if len(param_nombres) != len(self.argumentos):
+            raise Exception(f"La función {self.nombre} espera {len(param_nombres)} argumentos y recibio {len(self.argumentos)}")
         valores = [arg.evaluar(memoria) for arg in self.argumentos]
         entorno_local = memoria.crear_entorno_local()
         for param, valor in zip(param_nombres, valores):

@@ -1,4 +1,3 @@
-from nodos import ExepcionReturn
 class Evaluador:
     def __init__(self, instrucciones):
         self.instrucciones = instrucciones
@@ -6,11 +5,12 @@ class Evaluador:
     def evaluar(self, memoria):
         resultado = None
         if self.instrucciones is not None:
-            try:
-                for instruccion in self.instrucciones:
+            for instruccion in self.instrucciones:
+                if isinstance(instruccion, list):
+                    for sub_instruccion in instruccion:
+                        resultado = sub_instruccion.evaluar(memoria)
+                else:
                     resultado = instruccion.evaluar(memoria)
-            except ExepcionReturn as ret:
-                return ret.valor
         return resultado
        
 

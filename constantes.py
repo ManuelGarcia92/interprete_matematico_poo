@@ -12,7 +12,8 @@ OPERACIONES = {
 
 PALABRAS_RESERVADAS = {
     "def"    : "DEF",
-    "return" : "RETURN",
+    "var"    : "VAR",
+    "cal"    : "CAL"
 }
 
 OPERADORES_SIMPLES = {

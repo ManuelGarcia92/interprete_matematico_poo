@@ -1,4 +1,5 @@
 from constantes import OPERACIONES
+
 class NodoBinario:
     def __init__(self, operador, izquierda, derecha):
         self.operador = operador
@@ -10,6 +11,18 @@ class NodoBinario:
         valor_derecha = self.derecha.evaluar(memoria)
         resultado = OPERACIONES[self.operador](valor_izquierda, valor_derecha)
         return resultado
+
+class NodoUnario:
+    def __init__(self, signo, valor):
+        self.signo = signo
+        self.valor = valor
+
+    def evaluar(self, memoria):
+        resultado = self.valor.evaluar(memoria)
+        if self.signo == "-":
+            return -resultado
+        else:
+            return resultado
         
 class NodoNumero:
     def __init__(self, valor):
@@ -34,7 +47,7 @@ class NodoAsignacion:
     def evaluar(self, memoria):
         return memoria.declarar(self.nombre, self.valor.evaluar(memoria))
     
-class NodoIdentificador:
+class NodoLlamadaVar:
     def __init__(self, nombre):
         self.nombre = nombre
 
@@ -62,7 +75,7 @@ class NodoFuncion:
     def evaluar(self, memoria):
         memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo)
 
-class NodoLlamada:
+class NodoLlamadaFun:
     def __init__(self, nombre, argumentos):
         self.nombre = nombre
         self.argumentos = argumentos

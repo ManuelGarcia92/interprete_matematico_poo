@@ -21,7 +21,7 @@ def calculo() -> None:
             resultado_operacion = procesar_expresion(texto)
             mensaje_abajo = f"Resultado = {resultado_operacion}"
         except Exception as error:
-            mensaje_abajo = f"[Error de Ejecución]: {error}"
+            mensaje_abajo = error
        
 def procesar_expresion(texto: str) -> int | float | None:
     memoria = TablaDeSimbolos()

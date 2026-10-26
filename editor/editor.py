@@ -107,7 +107,7 @@ class Editor:
         matriz_formateada = ""
         for linea in matriz:
             matriz_formateada += "".join(linea)
-            matriz_formateada += "\n"
+            matriz_formateada += "|"
         return matriz_formateada[:-1]
 
 

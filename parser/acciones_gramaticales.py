@@ -42,11 +42,11 @@ class AccionesGramaticales:
             instruccion.append(metodo())
         return instruccion
 
-    def _parsear_argumentos(self, metodo):
+    def _parsear_argumentos(self, metodo_argumentos):
         argumentos = []
         self.flujo.consumir("PAREN_IZQ", "Falta el paréntesis de apertura ( en los argumentos")
         if not self.flujo.coincide("PAREN_DER"):
-            argumentos = self.parsear_secuencia(metodo)
+            argumentos = self.parsear_secuencia(metodo_argumentos)
         self.flujo.consumir("PAREN_DER", "Falta el paréntesis de cierre ) en los argumentos")
         return argumentos
     

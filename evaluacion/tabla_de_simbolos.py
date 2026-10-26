@@ -16,7 +16,7 @@ class TablaDeSimbolos:
                     args = ", ".join(a.nombre for a in datos["argumentos"])
                     print(f"{nombre}({args})")
 
-    def _crear_entorno_local(self):
+    def crear_entorno_local(self):
         return TablaDeSimbolos(padre=self)
     
     def declarar_variable(self, nombre, valor):

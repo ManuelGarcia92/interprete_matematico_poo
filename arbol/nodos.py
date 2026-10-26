@@ -52,13 +52,6 @@ class NodoDeclararFun:
     def evaluar(self, memoria):
         memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo)
 
-class NodoEliminacion:
-    def __init__(self, nombre : str):
-        self.clave = nombre
-
-    def evaluar(self, memoria):
-        return memoria.eliminar(self.clave)
-    
 class NodoLlamarVar:
     def __init__(self, nombre : str):
         self.nombre = nombre

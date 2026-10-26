@@ -10,10 +10,6 @@ class AccionesGramaticales:
         expresion = metodo_expresion()
         return nodos.NodoDeclararVar(token_nombre.valor, expresion)
     
-    def parsear_eliminacion(self):
-        token_id = self.flujo.consumir("IDENTIFICADOR", "Falta el nombre de la variable que desea eliminar")
-        return nodos.NodoEliminacion(token_id.valor)
-    
     def parsear_funcion(self, metodo_argumentos, metodo_cuerpo):
         token_nombre = self.flujo.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
         argumentos = self._parsear_argumentos(metodo_argumentos)

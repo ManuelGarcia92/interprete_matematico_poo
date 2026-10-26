@@ -22,6 +22,8 @@ class TablaDeSimbolos:
         raise Exception(f"Error semántico: Variable {nombre} no esta definida.")
       
     def llamar_funcion(self, nombre):
-        if nombre not in self.memoria:
-            raise Exception(f"Error semántico: La función {nombre} no esta declarada.")
-        return self.memoria[nombre]
+        if nombre in self.memoria:
+            return self.memoria[nombre]
+        if self.padre is not None:
+            return self.padre.llamar_funcion(nombre)
+        raise Exception(f"Error semántico: La función {nombre} no esta declarada.")

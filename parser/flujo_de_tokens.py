@@ -30,7 +30,7 @@ class FlujoDeTokens:
         self.levantar_error(mensaje_error)   
 
     def levantar_error(self, mensaje):
-        raise Exception(f"ERROR [Linea : {self.mirar().linea} Columna: {self.mirar().columna} Token : {self.mirar().valor} : {mensaje}]\n")
+        raise Exception(f"ERROR [Línea : {self.mirar().linea} Columna: {self.mirar().columna} Token : {self.mirar().valor} : {mensaje}]\n")
     
     
     

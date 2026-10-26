@@ -1,5 +1,5 @@
 from .acciones_gramaticales import AccionesGramaticales
-from nodos import NodoNumero, NodoBinario
+from arbol.nodos import NodoNumero, NodoBinario
 
 class ReglasGramaticales:
     def __init__(self, flujo):
@@ -11,26 +11,23 @@ class ReglasGramaticales:
 
         if self.flujo.coincide("VAR"):
             self.flujo.avanzar()
-            instruccion = self.acciones.parsear_secuencia(self.acciones.parsear_asignacion(self.expresion))
-            self.flujo.consumir("PUNTO_Y_COMA", "Debes terminar la asignación con punto y coma")
+            instruccion = self.acciones.parsear_secuencia(
+                lambda: self.acciones.parsear_asignacion(self.expresion)
+            )
+            self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
             
         elif self.flujo.coincide("DEL"):
             self.flujo.avanzar()
-            pass
+            instruccion = self.acciones.parsear_secuencia(self.acciones.parsear_eliminacion)
+            self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
 
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()
             instruccion = self.acciones.parsear_funcion(self.expresion, self.parsear_instrucciones)
             self.flujo.consumir("PUNTO_Y_COMA", "Debes terminar la declaración de la función con punto y coma")
             
-        elif self.flujo.coincide("CAL"):
-            self.flujo.avanzar()
-            instruccion = self.expresion()
-            self.flujo.consumir("PUNTO_Y_COMA", "Debes terminar la expresión con punto y coma")
-
         else:
-            print("Hola")
-            self.flujo.avanzar()
+            instruccion = self.expresion()
             
         return instruccion
         

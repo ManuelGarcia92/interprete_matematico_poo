@@ -23,7 +23,7 @@ def calculo() -> None:
         except Exception as error:
             mensaje_abajo = error
        
-def procesar_expresion(texto: str) -> int | float | None:
+def procesar_expresion(texto: str) -> int | float | str:
     memoria = TablaDeSimbolos()
     lexer = Lexer(texto)
     tokens = lexer.tokenizar()

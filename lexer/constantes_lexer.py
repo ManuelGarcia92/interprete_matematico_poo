@@ -1,7 +1,6 @@
 PALABRAS_RESERVADAS = {
     "def"   : "DEF",
-    "var"   : "VAR",
-    "del"   : "DEL"
+    "var"   : "VAR"
 }
 
 OPERADORES_SIMPLES = {

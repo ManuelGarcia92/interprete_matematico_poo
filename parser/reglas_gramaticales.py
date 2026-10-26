@@ -16,11 +16,6 @@ class ReglasGramaticales:
             )
             self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
             
-        elif self.flujo.coincide("DEL"):
-            self.flujo.avanzar()
-            instruccion = self.acciones.parsear_secuencia(self.acciones.parsear_eliminacion)
-            self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
-
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()
             instruccion = self.acciones.parsear_funcion(self.expresion, self.parsear_instrucciones)

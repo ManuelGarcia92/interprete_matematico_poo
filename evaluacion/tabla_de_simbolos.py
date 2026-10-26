@@ -25,8 +25,3 @@ class TablaDeSimbolos:
         if nombre not in self.memoria:
             raise Exception(f"Error semántico: La función {nombre} no esta declarada.")
         return self.memoria[nombre]
-
-    def eliminar(self, nombre):
-        if nombre not in self.memoria:
-            raise Exception(f"{nombre} no esta definida")
-        del self.memoria[nombre]

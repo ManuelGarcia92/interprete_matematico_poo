@@ -52,6 +52,8 @@ class Lexer:
             caracter_actual = self._mirar()
             if caracter_actual.isspace():
                 self._avanzar()
+            elif caracter_actual == "\n":
+                self._avanzar()
             elif caracter_actual.isalpha() or caracter_actual == "_":
                 tokens.append(self._leer_palabra())
             elif caracter_actual in OPERADORES_SIMPLES:

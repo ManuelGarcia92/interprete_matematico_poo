@@ -24,7 +24,6 @@ class ReglasGramaticales:
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()
             instruccion = self.acciones.parsear_funcion(self.expresion, self.parsear_instrucciones)
-            self.flujo.consumir("PUNTO_Y_COMA", "Debes terminar la declaración de la función con punto y coma")
             
         else:
             instruccion = self.expresion()

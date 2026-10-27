@@ -6,6 +6,18 @@ class Interfaz:
         self.scroll_y = 0
         self.scroll_x = 0
 
+    @staticmethod
+    def obtener_texto_sup(mensaje_superior):
+        app_actual = get_app()
+        _, ancho_term = app_actual.output.get_size()
+        return f"{mensaje_superior}\n{"_" * ancho_term}"
+
+    @staticmethod
+    def obtner_texto_inf(mensaje_inferior):
+        app_actual = get_app()
+        _, ancho_term = app_actual.output.get_size()
+        return f"{"_" * ancho_term}\n {mensaje_inferior}"
+    
     def interfaz_editor(self):
         lineas = self.logica.matriz
         ancho_numero = len(str(len(lineas)))

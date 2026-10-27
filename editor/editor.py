@@ -38,7 +38,7 @@ class Editor:
 
         @kb.add('home')
         def _(event):
-            self.logica.primera_linea()
+            self.logica.principio_linea()
 
         @kb.add('end')
         def _(event):
@@ -78,19 +78,9 @@ class Editor:
     def salida(self, mensaje_superior, mensaje_inferior):
         self.procesar = False
 
-        def obtener_texto_sup():
-            app_actual = get_app()
-            _, ancho_term = app_actual.output.get_size()
-            return f"{mensaje_superior}\n{"_" * ancho_term}"
-
-        def obtner_texto_inf():
-            app_actual = get_app()
-            _, ancho_term = app_actual.output.get_size()
-            return f"{"_" * ancho_term}\n {mensaje_inferior}"
-
-        control_superior = FormattedTextControl(text=obtener_texto_sup)
+        control_superior = FormattedTextControl(text=lambda:self.interfaz.obtener_texto_sup(mensaje_superior))
         control_editor = FormattedTextControl(text=self.interfaz.interfaz_editor)
-        control_inferior = FormattedTextControl(text=obtner_texto_inf)
+        control_inferior = FormattedTextControl(text=lambda:self.interfaz.obtner_texto_inf(mensaje_inferior))
 
         root_container = HSplit([
             Window(content=control_superior, height=3, always_hide_cursor=True),

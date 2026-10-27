@@ -2,7 +2,6 @@ from evaluacion import TablaDeSimbolos, evaluar_instrucciones
 from parser import Parser
 from editor import Editor
 from lexer import Lexer
-import readline
 
 def iniciar_consola() -> None:
     mensaje_salida = ""

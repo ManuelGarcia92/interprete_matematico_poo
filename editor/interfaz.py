@@ -14,7 +14,7 @@ class Interfaz:
         alto_term, ancho_term = app.output.get_size()
 
         ancho_texto = ancho_term - ancho_numero - 5
-        lineas_visibles = max(1, alto_term - 4)
+        lineas_visibles = max(1, alto_term - 5)
 
         self._ajustar_largo(lineas_visibles)
         self._ajustar_ancho(ancho_texto)

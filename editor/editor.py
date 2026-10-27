@@ -14,6 +14,7 @@ class Editor:
         self.logica = Logica()
         self.interfaz = Interfaz(self.logica)
         self.kb = KeyBindings()
+        self.procesar = False
         self._configurar_teclas()
 
     def _configurar_teclas(self):
@@ -59,16 +60,24 @@ class Editor:
         def _(event):
             self.logica.tabulacion_inversa()
 
-        @kb.add('escape')
+        @kb.add('escape', eager=True)
         def _(event):
+            self.procesar = False
             event.app.exit()
 
+        @kb.add('c-r')
+        def _(event):
+            self.procesar = True
+            event.app.exit()
+        
         @kb.add(Keys.Any)
         def _(event):
             if event.data:
                 self.logica.añadir_caracter(event.data)
 
     def salida(self, mensaje_superior, mensaje_inferior):
+        self.procesar = False
+
         def obtener_texto_sup():
             app_actual = get_app()
             _, ancho_term = app_actual.output.get_size()
@@ -84,7 +93,7 @@ class Editor:
         control_inferior = FormattedTextControl(text=obtner_texto_inf)
 
         root_container = HSplit([
-            Window(content=control_superior, height=2, always_hide_cursor=True),
+            Window(content=control_superior, height=3, always_hide_cursor=True),
             Window(content=control_editor, always_hide_cursor=True),
             Window(content=control_inferior, height=2, always_hide_cursor=True),
         ])

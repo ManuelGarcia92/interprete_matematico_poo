@@ -8,18 +8,19 @@ def calculo() -> None:
     mensaje_abajo = "Resultado = "
     editor = Editor()
     while True:
-        texto = editor.formatear_matriz(editor.salida(
-            mensaje_superior="[Ingrese el comando [:break] para salir.]",
+        matriz = editor.salida(
+            mensaje_superior="[Presione [Escape] para salir]\n[Presione [Control+R] para procesar]",
             mensaje_inferior=mensaje_abajo
-        ))
+        )
+        texto = editor.formatear_matriz(matriz)
 
-        if texto.lower() == ":break":
+        if not editor.procesar:
             break
+
         if texto.strip() == "":
             continue
         try:
-            resultado_operacion = procesar_expresion(texto)
-            mensaje_abajo = f"Resultado = {resultado_operacion}"
+            mensaje_abajo = f"Resultado = {procesar_expresion(texto)}"
         except Exception as error:
             mensaje_abajo = error
        

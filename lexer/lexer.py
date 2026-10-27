@@ -17,6 +17,11 @@ class Lexer:
     def _mirar(self, pasos=0) -> str:
         return self.texto[self.pos + pasos]
     
+    def _leer_salto_linea(self) -> None:
+        self._avanzar()
+        self.linea += 1
+        self.columna = 0
+
     def _leer_numero(self) -> Token:
         col_inicio = self.columna + 1
         contador_de_puntos_decimales = 0
@@ -54,7 +59,7 @@ class Lexer:
             tipo_token = "IDENTIFICADOR"
         col_fin = self.columna
         return Token(tipo_token, buffer, self.linea, f"{col_inicio}-{col_fin}")
-
+    
     def tokenizar(self) -> list:
         tokens  = [] 
         while self.pos < len(self.texto):
@@ -62,9 +67,7 @@ class Lexer:
             if caracter_actual.isspace():
                 self._avanzar()
             elif caracter_actual == "|":
-                self._avanzar()
-                self.linea += 1
-                self.columna = 0
+                self._leer_salto_linea()
             elif caracter_actual.isalpha() or caracter_actual == "_":
                 tokens.append(self._leer_palabra())
             elif caracter_actual in OPERADORES_SIMPLES:
@@ -73,6 +76,6 @@ class Lexer:
                 tokens.append(self._leer_numero())  
             else:
                 raise Exception(f"Caracter desconocido : {caracter_actual}")
-        col = self.columna + 1
-        tokens.append(Token("FIN", "Fin", self.linea, f"{col}-{col}"))
+        col_fin = self.columna + 1
+        tokens.append(Token("FIN", "Fin", self.linea, f"{col_fin}-{col_fin}"))
         return tokens

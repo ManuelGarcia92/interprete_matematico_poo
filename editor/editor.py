@@ -44,6 +44,14 @@ class Editor:
         def _(event):
             self.logica.fin_linea()
 
+        @kb.add('pageup')
+        def _(event):
+            self.logica.primera_linea()
+
+        @kb.add('pagedown')
+        def _(event):
+            self.logica.ultima_linea()
+
         @kb.add('enter')
         def _(event):
             self.logica.añadir_linea()
@@ -75,7 +83,10 @@ class Editor:
             if event.data:
                 self.logica.añadir_caracter(event.data)
 
-    def salida(self, mensaje_superior, mensaje_inferior):
+    def salida(self,
+                mensaje_superior="[Presione [Escape] para salir]\n[Presione [Control+R] para procesar]",
+                mensaje_inferior=""):
+        
         self.procesar = False
 
         control_superior = FormattedTextControl(text=lambda:self.interfaz.obtener_texto_sup(mensaje_superior))

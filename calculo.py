@@ -5,13 +5,10 @@ from lexer import Lexer
 import readline
 
 def calculo() -> None:
-    mensaje_abajo = "Resultado = "
+    mensaje_salida = "Resultado = "
     editor = Editor()
     while True:
-        matriz = editor.salida(
-            mensaje_superior="[Presione [Escape] para salir]\n[Presione [Control+R] para procesar]",
-            mensaje_inferior=mensaje_abajo
-        )
+        matriz = editor.salida(mensaje_inferior=mensaje_salida)
         texto = editor.formatear_matriz(matriz)
 
         if not editor.procesar:
@@ -20,9 +17,9 @@ def calculo() -> None:
         if texto.strip() == "":
             continue
         try:
-            mensaje_abajo = f"Resultado = {procesar_expresion(texto)}"
+            mensaje_salida = f"Resultado = {procesar_expresion(texto)}"
         except Exception as error:
-            mensaje_abajo = error
+            mensaje_salida = error
        
 def procesar_expresion(texto: str) -> int | float | str:
     memoria = TablaDeSimbolos()

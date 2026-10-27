@@ -5,7 +5,7 @@ class AccionesGramaticales:
         self.flujo = flujo
 
     def parsaer_variable(self, metodo_expresion):
-        instruccion = self.parsear_secuencia(lambda: self.parsear_asignacion(metodo_expresion))
+        instruccion = self.parsear_secuencia(lambda:self.parsear_asignacion(metodo_expresion))
         self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
         return instruccion
     

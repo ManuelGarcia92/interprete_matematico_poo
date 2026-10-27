@@ -89,13 +89,13 @@ class Editor:
         
         self.procesar = False
 
-        control_superior = FormattedTextControl(text=lambda:self.interfaz.obtener_texto_sup(mensaje_superior))
-        control_editor = FormattedTextControl(text=self.interfaz.interfaz_editor)
-        control_inferior = FormattedTextControl(text=lambda:self.interfaz.obtner_texto_inf(mensaje_inferior))
+        control_superior = FormattedTextControl(text=lambda:self.interfaz.obtener_texto_superior(mensaje_superior))
+        control_medio = FormattedTextControl(text=self.interfaz.obtener_texto_medio)
+        control_inferior = FormattedTextControl(text=lambda:self.interfaz.obtener_texto_inferior(mensaje_inferior))
 
         root_container = HSplit([
             Window(content=control_superior, height=3, always_hide_cursor=True),
-            Window(content=control_editor, always_hide_cursor=True),
+            Window(content=control_medio, always_hide_cursor=True),
             Window(content=control_inferior, height=2, always_hide_cursor=True),
         ])
 

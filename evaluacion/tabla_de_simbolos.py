@@ -11,7 +11,7 @@ class TablaDeSimbolos:
 
     def declarar_funcion(self, nombre, argumentos, cuerpo, entorno):
         if nombre in self.memoria:
-            raise Exception(f"Error semántico: La función {nombre} ya ha sido declarada.")
+            raise Exception(f"La función {nombre} ya ha sido declarada")
         self.memoria[nombre] = {"argumentos": argumentos, "cuerpo": cuerpo, "entorno" : entorno}
 
     def obtener_simbolo(self, nombre):
@@ -19,5 +19,5 @@ class TablaDeSimbolos:
             return self.memoria[nombre]
         elif self.padre is not None:
             return self.padre.obtener_simbolo(nombre)
-        raise Exception(f"Error semántico: {nombre} no esta definida.")
+        raise Exception(f"{nombre} no esta definida")
       

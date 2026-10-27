@@ -4,8 +4,8 @@ from editor import Editor
 from lexer import Lexer
 import readline
 
-def calculo() -> None:
-    mensaje_salida = "Resultado = "
+def iniciar_consola() -> None:
+    mensaje_salida = ""
     editor = Editor()
     while True:
         matriz = editor.salida(mensaje_inferior=mensaje_salida)
@@ -18,11 +18,11 @@ def calculo() -> None:
             continue
         
         try:
-            mensaje_salida = f"Resultado = {procesar_expresion(texto)}"
+            mensaje_salida = f"Resultado = {procesar_instrucciones(texto)}"
         except Exception as error:
-            mensaje_salida = error
+            mensaje_salida = f"[ERROR : {error}]"
        
-def procesar_expresion(texto: str) -> int | float | str:
+def procesar_instrucciones(texto: str) -> int | float | str:
     memoria = TablaDeSimbolos()
     lexer = Lexer(texto)
     tokens = lexer.tokenizar()

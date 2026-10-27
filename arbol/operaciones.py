@@ -1,16 +1,16 @@
 def division(x, y):
     if y == 0:
-        raise Exception("Error matemático: No se puede dividir por 0")
+        raise Exception("No se puede dividir por 0")
     return x / y
     
 def division_entera(x, y):
     if y == 0:
-        raise Exception("Error matemático: No se puede dividir por 0")
+        raise Exception("No se puede dividir por 0")
     return x // y
     
 def modulo(x, y):
     if y == 0:
-        raise Exception("Error matemático: Módulo no se puede dividir por 0")
+        raise Exception("Módulo no se puede dividir por 0")
     return x % y
 
 def raiz_enesima(x, y):

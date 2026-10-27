@@ -9,24 +9,24 @@ class Interfaz:
     @staticmethod
     def obtener_texto_superior(mensaje_superior):
         app_actual = get_app()
-        _, ancho_term = app_actual.output.get_size()
-        return f"{mensaje_superior}\n{"_" * ancho_term}"
+        _, ancho_terminal = app_actual.output.get_size()
+        return f"{mensaje_superior}\n{"_" * ancho_terminal}"
 
     @staticmethod
     def obtener_texto_inferior(mensaje_inferior):
         app_actual = get_app()
-        _, ancho_term = app_actual.output.get_size()
-        return f"{"_" * ancho_term}\n {mensaje_inferior}"
+        _, ancho_terminal = app_actual.output.get_size()
+        return f"{"_" * ancho_terminal}\n {mensaje_inferior}"
     
     def obtener_texto_medio(self):
         lineas = self.logica.matriz
         ancho_numero = len(str(len(lineas)))
 
         app = get_app()
-        alto_term, ancho_term = app.output.get_size()
+        alto_terminal, ancho_terminal = app.output.get_size()
 
-        ancho_texto = ancho_term - ancho_numero - 5
-        lineas_visibles = max(1, alto_term - 5)
+        ancho_texto = ancho_terminal - ancho_numero - 5
+        lineas_visibles = max(1, alto_terminal - 5)
 
         self._ajustar_largo(lineas_visibles)
         self._ajustar_ancho(ancho_texto)
@@ -57,6 +57,3 @@ class Interfaz:
             self.scroll_x = self.logica.cursor_x
         elif self.logica.cursor_x >= self.scroll_x + ancho_texto:
             self.scroll_x = self.logica.cursor_x - ancho_texto + 1
-
-    def interfaz_consola(self):
-        pass

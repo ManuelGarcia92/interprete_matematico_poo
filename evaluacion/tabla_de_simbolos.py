@@ -9,21 +9,15 @@ class TablaDeSimbolos:
     def declarar_variable(self, nombre, valor):
         self.memoria[nombre] = valor
 
-    def declarar_funcion(self, nombre, argumentos, cuerpo):
+    def declarar_funcion(self, nombre, argumentos, cuerpo, entorno):
         if nombre in self.memoria:
             raise Exception(f"Error semántico: La función {nombre} ya ha sido declarada.")
-        self.memoria[nombre] = {"argumentos": argumentos, "cuerpo": cuerpo}
+        self.memoria[nombre] = {"argumentos": argumentos, "cuerpo": cuerpo, "entorno" : entorno}
 
-    def llamar_variable(self, nombre):
+    def obtener_simbolo(self, nombre):
         if nombre in self.memoria:
             return self.memoria[nombre]
-        if self.padre is not None:
-            return self.padre.llamar_variable(nombre)
-        raise Exception(f"Error semántico: Variable {nombre} no esta definida.")
+        elif self.padre is not None:
+            return self.padre.obtener_simbolo(nombre)
+        raise Exception(f"Error semántico: {nombre} no esta definida.")
       
-    def llamar_funcion(self, nombre):
-        if nombre in self.memoria:
-            return self.memoria[nombre]
-        if self.padre is not None:
-            return self.padre.llamar_funcion(nombre)
-        raise Exception(f"Error semántico: La función {nombre} no esta declarada.")

@@ -4,17 +4,22 @@ class AccionesGramaticales:
     def __init__(self, flujo):
         self.flujo = flujo
 
+    def parsaer_variable(self, metodo_expresion):
+        instruccion = self.parsear_secuencia(lambda: self.parsear_asignacion(metodo_expresion))
+        self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
+        return instruccion
+    
     def parsear_asignacion(self, metodo_expresion):
-        token_nombre = self.flujo.consumir("IDENTIFICADOR", "Falta el nombre de la variable")
+        token_nombre_var = self.flujo.consumir("IDENTIFICADOR", "Falta el nombre de la variable")
         self.flujo.consumir("IGUAL", "Falta el signo de asignación = ")
         expresion = metodo_expresion()
-        return nodos.NodoDeclararVar(token_nombre.valor, expresion)
+        return nodos.NodoDeclararVar(token_nombre_var.valor, expresion)
     
     def parsear_funcion(self, metodo_argumentos, metodo_cuerpo):
-        token_nombre = self.flujo.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
+        token_nombre_fun = self.flujo.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
         argumentos = self._parsear_argumentos(metodo_argumentos)
         cuerpo = self._parsear_cuerpo(metodo_cuerpo)
-        return nodos.NodoDeclararFun(token_nombre.valor, argumentos, cuerpo)
+        return nodos.NodoDeclararFun(token_nombre_fun.valor, argumentos, cuerpo)
 
     def parsear_llamada(self, metodo_expresion):
         token_llamada = self.flujo.avanzar()

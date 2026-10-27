@@ -11,10 +11,7 @@ class ReglasGramaticales:
 
         if self.flujo.coincide("VAR"):
             self.flujo.avanzar()
-            instruccion = self.acciones.parsear_secuencia(
-                lambda: self.acciones.parsear_asignacion(self.expresion)
-            )
-            self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
+            instruccion = self.acciones.parsaer_variable(self.expresion)
             
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()

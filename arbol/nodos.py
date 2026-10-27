@@ -50,14 +50,14 @@ class NodoDeclararFun:
         self.cuerpo = cuerpo
 
     def evaluar(self, memoria):
-        memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo)
+        memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo, entorno=memoria)
 
 class NodoLlamarVar:
     def __init__(self, nombre : str):
         self.nombre = nombre
 
     def evaluar(self, memoria):
-        return memoria.llamar_variable(self.nombre)
+        return memoria.obtener_simbolo(self.nombre)
     
 class NodoLlamarFun:
     def __init__(self, nombre : str, argumentos : list):
@@ -65,13 +65,14 @@ class NodoLlamarFun:
         self.argumentos = argumentos
 
     def evaluar(self, memoria):
-        func = memoria.llamar_funcion(self.nombre)
+        func = memoria.obtener_simbolo(self.nombre)
         param_nombres = func["argumentos"]
         cuerpo_codigo = func["cuerpo"]
+        entorno_definicion = func["entorno"]
         if len(param_nombres) != len(self.argumentos):
             raise Exception(f"La función {self.nombre} espera {len(param_nombres)} argumentos y recibio {len(self.argumentos)}")
         valores = [arg.evaluar(memoria) for arg in self.argumentos]
-        entorno_local = memoria.crear_entorno_local()
+        entorno_local = entorno_definicion.crear_entorno_local()
         for param, valor in zip(param_nombres, valores):
             entorno_local.declarar_variable(param.nombre, valor)
         resultado = evaluar_instrucciones(cuerpo_codigo, entorno_local)

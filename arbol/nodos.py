@@ -1,5 +1,5 @@
-from evaluacion import evaluar_instrucciones
 from .despacho import OPERACIONES
+from evaluacion import evaluar_instrucciones
 
 class NodoNumero:
     def __init__(self, valor):

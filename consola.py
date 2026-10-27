@@ -1,7 +1,5 @@
-from evaluacion import TablaDeSimbolos, evaluar_instrucciones
-from parser import Parser
 from editor import Editor
-from lexer import Lexer
+from interprete import procesar_instrucciones
 
 def iniciar_consola() -> None:
     mensaje_salida = ""
@@ -21,13 +19,3 @@ def iniciar_consola() -> None:
         except Exception as error:
             mensaje_salida = f"[ERROR : {error}]"
        
-def procesar_instrucciones(texto: str) -> int | float | str:
-    memoria = TablaDeSimbolos()
-    lexer = Lexer(texto)
-    tokens = lexer.tokenizar()
-    parser = Parser(tokens)
-    arbol = parser.parsear()
-    resultado = evaluar_instrucciones(arbol, memoria)
-    if resultado is None:
-        resultado = ""
-    return resultado

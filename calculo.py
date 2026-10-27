@@ -16,6 +16,7 @@ def calculo() -> None:
 
         if texto.strip() == "":
             continue
+        
         try:
             mensaje_salida = f"Resultado = {procesar_expresion(texto)}"
         except Exception as error:

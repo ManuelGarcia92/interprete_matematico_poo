@@ -11,7 +11,7 @@ class ReglasGramaticales:
 
         if self.flujo.coincide("VAR"):
             self.flujo.avanzar()
-            instruccion = self.acciones.parsaer_variable(self.expresion)
+            instruccion = self.acciones.parsear_variable(self.expresion)
             
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()
@@ -61,4 +61,4 @@ class ReglasGramaticales:
             return self.acciones.parsear_parentesis(self.expresion)
 
         else:
-            self.flujo.levantar_error("Esperaba un número")
+            self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")

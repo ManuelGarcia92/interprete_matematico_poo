@@ -35,7 +35,7 @@ class NodoBinario:
         valor_derecha = self.nodo_derecho.evaluar(memoria)
         return OPERACIONES[self.operador](valor_izquierda, valor_derecha)
 
-class NodoDeclararVariable:
+class NodoDeclaracionVariable:
     def __init__(self, nombre : str, valor):
         self.nombre = nombre
         self.valor = valor
@@ -43,7 +43,7 @@ class NodoDeclararVariable:
     def evaluar(self, memoria):
         return memoria.declarar_variable(self.nombre, self.valor.evaluar(memoria))
 
-class NodoDeclararFuncion:
+class NodoDeclaracionFuncion:
     def __init__(self, nombre : str, argumentos : list, cuerpo : list):
         self.nombre = nombre
         self.argumentos = argumentos
@@ -52,28 +52,32 @@ class NodoDeclararFuncion:
     def evaluar(self, memoria):
         memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo, entorno=memoria)
 
-class NodoLlamarVariable:
+class NodoLlamadaVariable:
     def __init__(self, nombre : str):
         self.nombre = nombre
 
     def evaluar(self, memoria):
         return memoria.obtener_simbolo(self.nombre)
     
-class NodoLlamarFuncion:
+class NodoLlamadaFuncion:
     def __init__(self, nombre : str, argumentos_llamada : list):
         self.nombre = nombre
         self.argumentos_llamada = argumentos_llamada
 
     def evaluar(self, memoria):
-        func = memoria.obtener_simbolo(self.nombre)
-        argumentos_funcion = func["argumentos"]
-        cuerpo_codigo = func["cuerpo"]
-        entorno_definicion = func["entorno"]
+        funcion = memoria.obtener_simbolo(self.nombre)
+        argumentos_funcion = funcion["argumentos"]
+        cuerpo_codigo = funcion["cuerpo"]
+        entorno_definicion = funcion["entorno"]
+
         if len(argumentos_funcion) != len(self.argumentos_llamada):
+            
             raise Exception(f"La función {self.nombre} espera {len(argumentos_funcion)} argumentos y recibio {len(self.argumentos_llamada)}")
         valores = [argumento.evaluar(memoria) for argumento in self.argumentos_llamada]
         entorno_local = entorno_definicion.crear_entorno_local()
+
         for parametro, valor in zip(argumentos_funcion, valores):
             entorno_local.declarar_variable(parametro.nombre, valor)
+
         resultado = evaluar_instrucciones(cuerpo_codigo, entorno_local)
         return resultado           

@@ -63,7 +63,6 @@ class AccionesGramaticales:
         if not self.flujo.coincide("LLAVE_DER"):
             while not self.flujo.coincide("LLAVE_DER", "FIN"):
                 cuerpo.append(metodo_cuerpo())
-            
         self.flujo.consumir("LLAVE_DER", "Falta la llave de cierre } del cuerpo")
         return cuerpo
     

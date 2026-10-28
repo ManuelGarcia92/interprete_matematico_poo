@@ -70,9 +70,9 @@ class NodoLlamadaFuncion:
         cuerpo_codigo = funcion["cuerpo"]
         entorno_definicion = funcion["entorno"]
 
-        if len(argumentos_funcion) != len(self.argumentos_llamada):
-            
+        if len(argumentos_funcion) != len(self.argumentos_llamada):  
             raise Exception(f"La función {self.nombre} espera {len(argumentos_funcion)} argumentos y recibio {len(self.argumentos_llamada)}")
+        
         valores = [argumento.evaluar(memoria) for argumento in self.argumentos_llamada]
         entorno_local = entorno_definicion.crear_entorno_local()
 

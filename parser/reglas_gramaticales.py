@@ -10,17 +10,17 @@ class ReglasGramaticales:
         instruccion = None
 
         if self.flujo.coincide("VAR"):
-            instruccion = self.acciones.parsear_variables(self.expresion)
+            instruccion = self.acciones.parsear_variables(self._expresion)
             
         elif self.flujo.coincide("DEF"):
-            instruccion = self.acciones.parsear_funcion(self.expresion, self.parsear_instrucciones)
+            instruccion = self.acciones.parsear_funcion(self._expresion, self.parsear_instrucciones)
             
         else:
-            instruccion = self.expresion()
+            instruccion = self._expresion()
             
         return instruccion
         
-    def expresion(self):
+    def _expresion(self):
         nodo_izquierdo = self._termino()
         while self.flujo.coincide("SUMA", "RESTA"):
             token_operador = self.flujo.avanzar()
@@ -50,13 +50,13 @@ class ReglasGramaticales:
             return NodoNumero(token_numero.valor)
         
         elif self.flujo.coincide("IDENTIFICADOR"):
-            return self.acciones.parsear_llamada(self.expresion)
+            return self.acciones.parsear_llamada(self._expresion)
         
         elif self.flujo.coincide("SUMA", "RESTA"):
             return self.acciones.parsear_unario(self._potencia)
         
         elif self.flujo.coincide("PAREN_IZQ"):
-            return self.acciones.parsear_parentesis(self.expresion)
+            return self.acciones.parsear_parentesis(self._expresion)
 
         else:
             self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")

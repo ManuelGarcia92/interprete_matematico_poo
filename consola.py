@@ -12,10 +12,15 @@ def iniciar_consola() -> None:
             break
 
         if texto.strip() == "":
+            mensaje_salida = ""
             continue
         
         try:
-            mensaje_salida = f"Resultado = {procesar_instrucciones(texto)}"
+            resultado = procesar_instrucciones(texto)
+            if resultado == "":
+                mensaje_salida = ""
+            else:
+                mensaje_salida = f"Resultado = {resultado}"
         except Exception as error:
             mensaje_salida = f"[ERROR : {error}]"
        

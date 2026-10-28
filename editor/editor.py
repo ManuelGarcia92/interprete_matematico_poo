@@ -111,12 +111,22 @@ class Editor:
         app.run()
         return self.logica.matriz
 
-    @staticmethod
-    def formatear_matriz(matriz):
+    @classmethod
+    def comprobar_matriz_vacia(self, matriz):
+        if not matriz:
+            return True
+        return all(str(celda).strip() == "" for fila in matriz for celda in fila)
+
+    def formatear_matriz(self, matriz):
         matriz_formateada = ""
+        if self.comprobar_matriz_vacia(matriz):
+            return matriz_formateada
         for linea in matriz:
             matriz_formateada += "".join(linea)
             matriz_formateada += "|"
         return matriz_formateada[:-1]
+    
+    
+
 
 

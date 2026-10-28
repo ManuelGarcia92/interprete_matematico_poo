@@ -3,9 +3,6 @@ class FlujoDeTokens:
         self.tokens = tokens
         self.pos = 0
     
-    def levantar_error(self, mensaje):
-        raise Exception(mensaje)
-    
     def mirar(self):
         if self.pos < len(self.tokens):
             return self.tokens[self.pos]

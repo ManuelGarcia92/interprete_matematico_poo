@@ -11,7 +11,7 @@ class ReglasGramaticales:
 
         if self.flujo.coincide("VAR"):
             self.flujo.avanzar()
-            instruccion = self.acciones.parsear_variable(self.expresion)
+            instruccion = self.acciones.parsear_variables(self.expresion)
             
         elif self.flujo.coincide("DEF"):
             self.flujo.avanzar()

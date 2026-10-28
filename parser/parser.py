@@ -15,9 +15,6 @@ class Parser:
         while not self.flujo.coincide("FIN"):
             instrucciones.append(self.reglas.parsear_instrucciones())
 
-            if self.flujo.coincide("PUNTO_Y_COMA"):
-                self.flujo.avanzar()
-            
         if self.flujo.mirar() and not self.flujo.coincide("FIN"):
             self.levantar_error("Quedan tokens sin procesar")
         

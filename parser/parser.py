@@ -8,14 +8,13 @@ class Parser:
 
     def parsear(self) -> list:
         instrucciones = []
-        
+
         if self.flujo.coincide("FIN"):
-            return None
+            instrucciones = None
 
         while not self.flujo.coincide("FIN"):
             instrucciones.append(self.reglas.parsear_instrucciones())
+            
+        self.flujo.consumir("FIN", "Quedan tokens sin procesar")
 
-        if self.flujo.mirar() and not self.flujo.coincide("FIN"):
-            self.levantar_error("Quedan tokens sin procesar")
-        
         return instrucciones

@@ -60,9 +60,8 @@ class AccionesGramaticales:
     def _parsear_cuerpo(self, metodo_cuerpo):
         cuerpo = []
         self.flujo.consumir("LLAVE_IZQ", "El cuerpo de una función debe estar definido dentro de llaves { }")
-        if not self.flujo.coincide("LLAVE_DER"):
-            while not self.flujo.coincide("LLAVE_DER", "FIN"):
-                cuerpo.append(metodo_cuerpo())
+        while not self.flujo.coincide("LLAVE_DER", "FIN"):
+            cuerpo.append(metodo_cuerpo())
         self.flujo.consumir("LLAVE_DER", "Falta la llave de cierre } del cuerpo")
         return cuerpo
     

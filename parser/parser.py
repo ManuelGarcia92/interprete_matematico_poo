@@ -10,7 +10,7 @@ class Parser:
         instrucciones = []
         
         if self.flujo.coincide("FIN"):
-            raise Exception("Expresión vacia")
+            return None
 
         while not self.flujo.coincide("FIN"):
             instrucciones.append(self.reglas.parsear_instrucciones())

@@ -9,6 +9,4 @@ def procesar_instrucciones(texto: str) -> int | float | str:
     parser = Parser(tokens)
     arbol = parser.parsear()
     resultado = evaluar_instrucciones(arbol, memoria)
-    if resultado is None:
-        resultado = ""
     return resultado

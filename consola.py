@@ -11,13 +11,9 @@ def iniciar_consola() -> None:
         if not editor.procesar:
             break
 
-        if texto.strip() == "":
-            mensaje_salida = ""
-            continue
-        
         try:
             resultado = procesar_instrucciones(texto)
-            if resultado == "":
+            if resultado is None:
                 mensaje_salida = ""
             else:
                 mensaje_salida = f"Resultado = {resultado}"

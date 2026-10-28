@@ -5,11 +5,13 @@ class AccionesGramaticales:
         self.flujo = flujo
 
     def parsear_variables(self, metodo_expresion):
+        self.flujo.avanzar()
         variables = self._parsear_secuencia(lambda:self._parsear_asignacion(metodo_expresion))
         self.flujo.consumir("PUNTO_Y_COMA", "La secuencia debe finalizar con ; ")
         return variables
     
     def parsear_funcion(self, metodo_argumentos, metodo_cuerpo):
+        self.flujo.avanzar()
         token_nombre_funcion = self.flujo.consumir("IDENTIFICADOR", "Se esperaba el nombre de la función")
         argumentos = self._parsear_argumentos(metodo_argumentos)
         cuerpo = self._parsear_cuerpo(metodo_cuerpo)

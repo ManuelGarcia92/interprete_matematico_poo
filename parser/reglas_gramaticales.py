@@ -10,11 +10,9 @@ class ReglasGramaticales:
         instruccion = None
 
         if self.flujo.coincide("VAR"):
-            self.flujo.avanzar()
             instruccion = self.acciones.parsear_variables(self.expresion)
             
         elif self.flujo.coincide("DEF"):
-            self.flujo.avanzar()
             instruccion = self.acciones.parsear_funcion(self.expresion, self.parsear_instrucciones)
             
         else:

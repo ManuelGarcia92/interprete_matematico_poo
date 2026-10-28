@@ -9,9 +9,6 @@ class Parser:
     def parsear(self) -> list:
         instrucciones = []
 
-        if self.flujo.coincide("FIN"):
-            instrucciones = None
-
         while not self.flujo.coincide("FIN"):
             instrucciones.append(self.reglas.parsear_instrucciones())
             

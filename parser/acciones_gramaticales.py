@@ -37,11 +37,11 @@ class AccionesGramaticales:
         return expresion
     
     def _parsear_secuencia(self, metodo):
-        instruccion = [metodo()]
+        secuencia = [metodo()]
         while self.flujo.coincide("COMA"):
             self.flujo.avanzar()
-            instruccion.append(metodo())
-        return instruccion
+            secuencia.append(metodo())
+        return secuencia
 
     def _parsear_asignacion(self, metodo_expresion):
         token_nombre_variable = self.flujo.consumir("IDENTIFICADOR", "Falta el nombre de la variable")

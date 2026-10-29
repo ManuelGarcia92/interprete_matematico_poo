@@ -110,9 +110,9 @@ class Editor:
 
         app.run()
         return self.logica.matriz
-
-    @classmethod
-    def comprobar_matriz_vacia(self, matriz):
+    
+    @staticmethod
+    def comprobar_matriz_vacia(matriz):
         if not matriz:
             return True
         return all(str(celda).strip() == "" for fila in matriz for celda in fila)

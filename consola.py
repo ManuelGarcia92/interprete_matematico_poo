@@ -7,16 +7,11 @@ def iniciar_consola() -> None:
     while True:
         matriz = editor.salida(mensaje_inferior=mensaje_salida)
         texto = editor.formatear_matriz(matriz)
-
         if not editor.procesar:
             break
-
         try:
             resultado = procesar_instrucciones(texto)
-            if resultado:
-                mensaje_salida = f"Resultado = {resultado}"
-            else:
-                mensaje_salida = ""
+            mensaje_salida = editor.formatear_salida(resultado)
         except Exception as error:
             mensaje_salida = f"[ERROR : {error}]"
        

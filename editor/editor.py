@@ -126,6 +126,16 @@ class Editor:
             matriz_formateada += "|"
         return matriz_formateada[:-1]
     
+    @staticmethod
+    def formatear_salida(cola_salida):
+        salida = ""
+        if cola_salida:
+            salida = ", ".join(cola_salida)
+        return salida
+
+
+
+    
     
 
 

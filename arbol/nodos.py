@@ -42,7 +42,7 @@ class NodoSalida:
     def evaluar(self, memoria):
         for salida in self.cola_salida:
             resultado = salida.evaluar(memoria)
-            memoria.cola_salida.append(resultado)
+            memoria.cola_salida.append(str(resultado))
 
 class NodoDeclararVariable:
     def __init__(self, nombre : str, valor):

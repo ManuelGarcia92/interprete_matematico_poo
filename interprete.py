@@ -2,7 +2,7 @@ from evaluacion import TablaDeSimbolos, evaluar_instrucciones
 from lexer import Lexer
 from parser import Parser
 
-def procesar_instrucciones(texto: str) -> list | None:
+def procesar_instrucciones(texto: str) -> list:
     memoria = TablaDeSimbolos()
     lexer = Lexer(texto)
     tokens = lexer.tokenizar()

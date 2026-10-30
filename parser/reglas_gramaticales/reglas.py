@@ -15,8 +15,7 @@ class ReglasGramaticales:
         if self.flujo.coincide("DEF"):
            return self.acciones.parsear_funcion(self._expresion, self.parsear_instrucciones)
             
-        else:
-            return self._expresion()
+        return self._expresion()
             
     def _expresion(self):
         return self.acciones.parsear_binario_izquierdo(self._termino, "OP_EXPRE")
@@ -40,5 +39,4 @@ class ReglasGramaticales:
         if self.flujo.coincide("PAREN_IZQ"):
             return self.acciones.parsear_parentesis(self._expresion)
 
-        else:
-            self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")
+        self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")

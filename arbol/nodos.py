@@ -1,5 +1,5 @@
 from .despacho import OPERACIONES
-from evaluacion import evaluar_instrucciones
+from evaluacion import evaluar_cuerpo
 
 class NodoNumero:
     def __init__(self, valor):
@@ -88,5 +88,5 @@ class NodoLlamarFuncion:
         for parametro, valor in zip(argumentos_funcion, valores):
             entorno_local.declarar_variable(parametro.nombre, valor)
 
-        resultado = evaluar_instrucciones(cuerpo_codigo, entorno_local)
+        resultado = evaluar_cuerpo(cuerpo_codigo, entorno_local)
         return resultado           

@@ -6,27 +6,26 @@ class ReglasGramaticales:
         self.acciones = AccionesGramaticales(self.flujo)
 
     def parsear_instrucciones(self):
-        instruccion = None
-
+        if self.flujo.coincide("PRINT"):
+            return self.acciones.parsear_salida(self._expresion)
+        
         if self.flujo.coincide("VAR"):
-            instruccion = self.acciones.parsear_variables(self._expresion)
+            return self.acciones.parsear_variables(self._expresion)
             
-        elif self.flujo.coincide("DEF"):
-            instruccion = self.acciones.parsear_funcion(self._expresion, self.parsear_instrucciones)
+        if self.flujo.coincide("DEF"):
+           return self.acciones.parsear_funcion(self._expresion, self.parsear_instrucciones)
             
         else:
-            instruccion = self._expresion()
+            return self._expresion()
             
-        return instruccion
-        
     def _expresion(self):
-        return self.acciones.parsear_binario_izquierdo(self._termino, "SUMA", "RESTA")
+        return self.acciones.parsear_binario_izquierdo(self._termino, "OP_EXPRE")
 
     def _termino(self):
-        return self.acciones.parsear_binario_izquierdo(self._potencia, "MULTI", "DIV", "DIV_ENTERA", "MOD")
+        return self.acciones.parsear_binario_izquierdo(self._potencia, "OP_TERM")
     
     def _potencia(self):
-        return self.acciones.parsear_binario_derecho(self._factor, "POTENCIA", "RAIZ_ENESIMA")
+        return self.acciones.parsear_binario_derecho(self._factor, "OP_POTEN")
 
     def _factor(self):
         if self.flujo.coincide("NUMERO"):
@@ -35,10 +34,11 @@ class ReglasGramaticales:
         if self.flujo.coincide("IDENTIFICADOR"):
             return self.acciones.parsear_llamada(self._expresion)
         
-        if self.flujo.coincide("SUMA", "RESTA"):
+        if self.flujo.coincide("OP_EXPRE"):
             return self.acciones.parsear_unario(self._potencia)
         
         if self.flujo.coincide("PAREN_IZQ"):
             return self.acciones.parsear_parentesis(self._expresion)
 
-        self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")
+        else:
+            self.flujo.levantar_error("Se esperaba un factor, expresión o identificador")

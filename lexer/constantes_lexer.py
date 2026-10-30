@@ -1,15 +1,16 @@
 PALABRAS_RESERVADAS = {
+    "print" : "PRINT",
     "def"   : "DEF",
     "var"   : "VAR"
 }
 
 OPERADORES_SIMPLES = {
-    "+"  : "SUMA",
-    "-"  : "RESTA",
-    "*"  : "MULTI",
-    "/"  : "DIV",
-    "$"  : "RAIZ_ENESIMA",
-    "%"  : "MOD",
+    "+"  : "OP_EXPRE",
+    "-"  : "OP_EXPRE",
+    "*"  : "OP_TERM",
+    "/"  : "OP_TERM",
+    "%"  : "OP_TERM",
+    "$"  : "OP_POTEN",
     "("  : "PAREN_IZQ",
     ")"  : "PAREN_DER",
     "{"  : "LLAVE_IZQ",
@@ -20,6 +21,6 @@ OPERADORES_SIMPLES = {
 }
 
 OPERADORES_DOBLES = {
-    "**" : "POTENCIA",
-    "//" : "DIV_ENTERA",
+    "**" : "OP_POTEN",
+    "//" : "OP_TERM",
 }

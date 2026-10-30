@@ -35,15 +35,24 @@ class NodoBinario:
         valor_derecha = self.nodo_derecho.evaluar(memoria)
         return OPERACIONES[self.operador](valor_izquierda, valor_derecha)
 
-class NodoDeclaracionVariable:
+class NodoSalida:
+    def __init__(self, cola_salida):
+        self.cola_salida = cola_salida
+
+    def evaluar(self, memoria):
+        for salida in self.cola_salida:
+            resultado = salida.evaluar(memoria)
+            memoria.cola_salida.append(resultado)
+
+class NodoDeclararVariable:
     def __init__(self, nombre : str, valor):
         self.nombre = nombre
         self.valor = valor
 
     def evaluar(self, memoria):
-        return memoria.declarar_variable(self.nombre, self.valor.evaluar(memoria))
+        memoria.declarar_variable(self.nombre, self.valor.evaluar(memoria))
 
-class NodoDeclaracionFuncion:
+class NodoDeclararFuncion:
     def __init__(self, nombre : str, argumentos : list, cuerpo : list):
         self.nombre = nombre
         self.argumentos = argumentos
@@ -52,14 +61,14 @@ class NodoDeclaracionFuncion:
     def evaluar(self, memoria):
         memoria.declarar_funcion(self.nombre, self.argumentos, self.cuerpo, entorno=memoria)
 
-class NodoLlamadaVariable:
+class NodoLlamarVariable:
     def __init__(self, nombre : str):
         self.nombre = nombre
 
     def evaluar(self, memoria):
         return memoria.obtener_simbolo(self.nombre)
     
-class NodoLlamadaFuncion:
+class NodoLlamarFuncion:
     def __init__(self, nombre : str, argumentos_llamada : list):
         self.nombre = nombre
         self.argumentos_llamada = argumentos_llamada

@@ -13,10 +13,10 @@ def iniciar_consola() -> None:
 
         try:
             resultado = procesar_instrucciones(texto)
-            if resultado is None:
-                mensaje_salida = ""
-            else:
+            if resultado:
                 mensaje_salida = f"Resultado = {resultado}"
+            else:
+                mensaje_salida = ""
         except Exception as error:
             mensaje_salida = f"[ERROR : {error}]"
        

@@ -1,5 +1,4 @@
 PALABRAS_RESERVADAS = {
-    "print" : "PRINT",
     "def"   : "DEF",
     "var"   : "VAR"
 }

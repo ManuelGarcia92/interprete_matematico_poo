@@ -6,9 +6,6 @@ class ReglasGramaticales:
         self.acciones = AccionesGramaticales(self.flujo)
 
     def parsear_instrucciones(self):
-        if self.flujo.coincide("PRINT"):
-            return self.acciones.parsear_salida(self._expresion)
-        
         if self.flujo.coincide("VAR"):
             return self.acciones.parsear_variables(self._expresion)
             

@@ -1,5 +1,5 @@
 from .despacho import OPERACIONES
-from evaluacion import evaluar_cuerpo
+from evaluacion import evaluar_instrucciones
 
 class NodoNumero:
     def __init__(self, valor):
@@ -34,15 +34,6 @@ class NodoBinario:
         valor_izquierda = self.nodo_izquierdo.evaluar(memoria)
         valor_derecha = self.nodo_derecho.evaluar(memoria)
         return OPERACIONES[self.operador](valor_izquierda, valor_derecha)
-
-class NodoSalida:
-    def __init__(self, cola_salida):
-        self.cola_salida = cola_salida
-
-    def evaluar(self, memoria):
-        for salida in self.cola_salida:
-            resultado = salida.evaluar(memoria)
-            memoria.cola_salida.append(str(resultado))
 
 class NodoDeclararVariable:
     def __init__(self, nombre : str, valor):
@@ -88,5 +79,5 @@ class NodoLlamarFuncion:
         for parametro, valor in zip(argumentos_funcion, valores):
             entorno_local.declarar_variable(parametro.nombre, valor)
 
-        resultado = evaluar_cuerpo(cuerpo_codigo, entorno_local)
+        resultado = evaluar_instrucciones(cuerpo_codigo, entorno_local)
         return resultado           

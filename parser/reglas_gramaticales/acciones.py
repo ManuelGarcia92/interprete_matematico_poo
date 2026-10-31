@@ -6,11 +6,6 @@ class AccionesGramaticales:
         self.flujo = flujo
         self.estructuras = EstructurasGramaticales(flujo)
 
-    def parsear_salida(self, metodo_expresion):
-        self.flujo.avanzar()
-        cola_salida = self.estructuras.parsear_argumentos(metodo_expresion)
-        return nodos.NodoSalida(cola_salida)
-    
     def parsear_variables(self, metodo_expresion):
         self.flujo.avanzar()
         variables = self.estructuras.parsear_secuencia(lambda:self._parsear_asignacion(metodo_expresion))

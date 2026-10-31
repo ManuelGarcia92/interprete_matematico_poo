@@ -2,8 +2,7 @@ class TablaDeSimbolos:
     def __init__(self, padre=None):
         self.memoria = {}
         self.padre = padre
-        self.cola_salida = []
-
+        
     def crear_entorno_local(self):
         return TablaDeSimbolos(padre=self)
     

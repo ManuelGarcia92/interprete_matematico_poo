@@ -11,7 +11,10 @@ def iniciar_consola() -> None:
             break
         try:
             resultado = procesar_instrucciones(texto)
-            mensaje_salida = editor.formatear_salida(resultado)
+            if resultado:
+                mensaje_salida = resultado
+            else:
+                mensaje_salida = ""
         except Exception as error:
             mensaje_salida = f"[ERROR : {error}]"
        
